@@ -12,8 +12,6 @@ Fleet is designed for technical operators running personal or team-controlled ag
 
 ![Fleet dashboard showing agents grouped by host with health and update status](docs/assets/screenshots/fleet-dashboard.jpg)
 
-![Setup checks and local network Fleet Node linking guidance](docs/assets/screenshots/setup-checks.jpg)
-
 ![Agent gateway modal showing terminal access](docs/assets/screenshots/agent-gateway-terminal.jpg)
 
 ## What Fleet Does

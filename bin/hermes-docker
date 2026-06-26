@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd -P)"
+DEFAULT_ROOT="$PROJECT_ROOT/runtime"
+
+# shellcheck source=hermes-env
+. "$SCRIPT_DIR/hermes-env"
+hermes_load_standard_env "$DEFAULT_ROOT" "$PROJECT_ROOT"
+
+resolve_project_path() {
+  local value="$1"
+  if [[ "$value" == "~" ]]; then
+    printf '%s\n' "$HOME"
+  elif [[ "$value" == "~/"* ]]; then
+    printf '%s\n' "$HOME/${value#~/}"
+  elif [[ "$value" == /* ]]; then
+    printf '%s\n' "$value"
+  else
+    printf '%s\n' "$PROJECT_ROOT/$value"
+  fi
+}
+
+ROOT="$(resolve_project_path "${HERMES_INSTANCES_ROOT:-$DEFAULT_ROOT}")"
+if [[ "$ROOT" != "$DEFAULT_ROOT" ]]; then
+  hermes_load_standard_env "$ROOT" "$PROJECT_ROOT"
+fi
+HERMES_AGENT_SRC="$(resolve_project_path "${HERMES_AGENT_SRC:-$PROJECT_ROOT/vendor/hermes-agent}")"
+HERMES_AUTH_SRC="$(resolve_project_path "${HERMES_AUTH_SRC:-$PROJECT_ROOT/secrets/auth.json}")"
+CAMOFOX_CONTEXT="$(resolve_project_path "${HERMES_CAMOFOX_CONTEXT:-$PROJECT_ROOT/docker/camofox}")"
+CAMOFOX_VERSION="${CAMOFOX_VERSION:-1.11.2}"
+CAMOFOX_IMAGE="local/camofox-browser:${CAMOFOX_VERSION}"
+WEBHOST_CONTEXT="$(resolve_project_path "${HERMES_WEBHOST_CONTEXT:-$PROJECT_ROOT/docker/webhost}")"
+WEBHOST_IMAGE="${HERMES_WEBHOST_IMAGE:-local/hermes-webhost:node20}"
+COMPOSE_BIN="${COMPOSE_BIN:-docker compose}"
+VNC_HOST_BIND="${HERMES_DOCKER_VNC_HOST_BIND:-0.0.0.0}"
+WEB_HOST_BIND="${HERMES_DOCKER_WEB_HOST_BIND:-0.0.0.0}"
+DASHBOARD_HOST_BIND="${HERMES_DOCKER_DASHBOARD_HOST_BIND:-0.0.0.0}"
+
+for lib in "$SCRIPT_DIR"/hermes-docker.d/*.bash; do
+  # shellcheck source=/dev/null
+  . "$lib"
+done
+
+cmd="${1:-}"
+shift || true
+
+case "$cmd" in
+  deploy)
+    [[ $# -ge 1 ]] || die "deploy requires NAME"
+    deploy "$@" ;;
+  start)
+    require_name "${1:-}"
+    compose_cmd "$1" up -d ;;
+  stop)
+    require_name "${1:-}"
+    browser_save_best_effort "$1"
+    compose_cmd "$1" down ;;
+  restart)
+    require_name "${1:-}"
+    browser_save_best_effort "$1"
+    compose_cmd "$1" up -d --force-recreate ;;
+  update)
+    [[ $# -eq 1 ]] || die "update requires NAME"
+    update_instance "$1" ;;
+  delete)
+    require_name "${1:-}"
+    delete_instance "$1" ;;
+  logs)
+    require_name "${1:-}"
+    name="$1"; shift
+    if [[ $# -gt 0 ]]; then
+      compose_cmd "$name" logs -f "$1"
+    else
+      compose_cmd "$name" logs -f
+    fi ;;
+  shell)
+    require_name "${1:-}"
+    compose_cmd "$1" exec -e HOME=/opt/data -w /opt/data/workspace hermes bash ;;
+  hermes)
+    require_name "${1:-}"
+    name="$1"; shift
+    compose_cmd "$name" exec -e HOME=/opt/data -w /opt/data/workspace hermes hermes "$@" ;;
+  memory-status)
+    [[ $# -eq 1 ]] || die "memory-status requires NAME"
+    memory_status "$1" ;;
+  memory-repair)
+    [[ $# -eq 1 ]] || die "memory-repair requires NAME"
+    repair_mnemosyne_profile "$1" ;;
+  browser)
+    require_name "${1:-}"
+    browser "$@" ;;
+  browser-save)
+    [[ $# -ge 1 && $# -le 2 ]] || die "browser-save requires NAME [USER_ID]"
+    browser_save "$@" ;;
+  status)
+    require_name "${1:-}"
+    compose_cmd "$1" ps
+    if [[ -f "$(instance_dir "$1")/instance.env" ]]; then
+      # shellcheck disable=SC1090
+      . "$(instance_dir "$1")/instance.env"
+      echo "Dashboard: http://127.0.0.1:${DASHBOARD_PORT}"
+      if [[ -n "${VNC_PORT:-}" ]]; then
+        echo "Camofox:   http://127.0.0.1:${VNC_PORT}/vnc.html"
+        echo "LAN VNC:   http://$(lan_ip):${VNC_PORT}/vnc.html"
+      fi
+      if [[ -n "${WEB_PORT:-}" ]]; then
+        echo "Web:       http://127.0.0.1:${WEB_PORT}"
+        echo "LAN Web:   http://$(lan_ip):${WEB_PORT}"
+      fi
+    fi ;;
+  cutover)
+    [[ $# -eq 1 ]] || die "cutover requires NAME"
+    cutover "$1" ;;
+  ""|-h|--help|help)
+    usage ;;
+  *)
+    usage
+    die "unknown command: $cmd" ;;
+esac

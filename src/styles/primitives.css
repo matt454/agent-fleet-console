@@ -1,0 +1,111 @@
+@layer components {
+  .ui-card { @apply overflow-hidden rounded-lg border border-line/80 bg-card shadow-[0_1px_2px_oklch(35%_0.02_255/0.04)]; }
+  .ui-card.lifecycle-summary-card, .ui-card.lifecycle-section-card, .ui-card.lifecycle-danger-card { @apply shrink-0; }
+  .ui-card-header { @apply flex items-start justify-between gap-3 border-b border-line/70 bg-[oklch(98.2%_0.004_255)] px-3 py-3; }
+  .ui-card-title { @apply m-0 text-base font-semibold text-ink; }
+  .ui-card-description { @apply m-0 mt-1 text-xs text-muted; }
+  .ui-card-content { @apply p-0; }
+  .ui-card-content.padded { @apply p-3; }
+  .ui-card-footer { @apply flex flex-wrap items-center gap-2 border-t border-line px-3 py-3; }
+  .ui-dialog-overlay { @apply fixed inset-0 z-50 grid place-items-center bg-[oklch(23%_0.018_255/0.34)] p-4; }
+  .ui-dialog-content { @apply max-h-[calc(100vh-32px)] w-full overflow-hidden rounded-xl border border-line/80 bg-card shadow-[0_24px_72px_oklch(35%_0.02_255/0.16)]; }
+  .ui-dialog-header { @apply flex items-center justify-between gap-3 border-b border-line/70 bg-[oklch(98.4%_0.004_255)] px-4 py-3; }
+  .ui-dialog-title { @apply m-0 text-lg font-semibold tracking-normal text-ink; }
+  .ui-dialog-description { @apply text-xs text-muted; }
+  .ui-alert-dialog-overlay { @apply fixed inset-0 z-50 bg-[oklch(23%_0.018_255/0.34)]; }
+  .ui-alert-dialog-content { @apply fixed left-1/2 top-1/2 z-50 grid w-[min(420px,calc(100vw-32px))] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border border-line bg-card p-4 shadow-[0_24px_72px_oklch(35%_0.02_255/0.16)]; }
+  .ui-alert-dialog-header { @apply grid gap-1.5; }
+  .ui-alert-dialog-footer { @apply flex flex-col-reverse gap-2 sm:flex-row sm:justify-end; }
+  .ui-alert-dialog-title { @apply m-0 text-base font-semibold text-ink; }
+  .ui-alert-dialog-description { @apply m-0 text-sm leading-6 text-muted; }
+  .ui-input { @apply rounded-md border border-line bg-card px-3 py-2 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15; }
+  .ui-textarea { @apply resize-y rounded-md border border-line bg-card px-3 py-2 text-sm leading-6 text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15; }
+  .ui-checkbox { @apply size-4 rounded border-line text-accent focus:ring-2 focus:ring-accent/20; }
+  .ui-field { @apply grid gap-1; }
+  .ui-field[data-invalid] .ui-field-label, .ui-field[data-invalid] .ui-field-description { @apply text-rose-700; }
+  .ui-field[data-invalid] .ui-input { @apply border-rose-300 focus:border-rose-500 focus:ring-rose-200; }
+  .ui-field-group { @apply grid gap-3; }
+  .ui-field-label { @apply grid gap-1 text-sm font-semibold text-ink; }
+  .ui-field-description { @apply text-xs text-muted; }
+  .ui-alert { @apply flex items-center gap-2 rounded-md border px-3 py-2 text-sm; }
+  .ui-alert svg { @apply size-4 shrink-0; }
+  .ui-alert strong { @apply text-ink; }
+  .ui-alert span { @apply text-xs; }
+  .ui-alert-default { @apply border-line bg-panel text-ink; }
+  .ui-alert-warning { @apply border-amber-200 bg-amber-50 text-amber-900; }
+  .ui-alert-destructive { @apply border-rose-200 bg-rose-50 text-rose-900; }
+  .ui-empty { @apply grid justify-items-center gap-4 rounded-lg border border-dashed border-line/80 bg-card p-6 text-center text-sm text-muted; }
+  .ui-empty-large { @apply min-h-72 content-center; }
+  .ui-empty-header { @apply grid justify-items-center gap-1.5; }
+  .ui-empty-media { @apply grid size-10 place-items-center rounded-lg border border-line bg-canvas text-muted; }
+  .ui-empty-media-icon svg { @apply size-5; }
+  .ui-empty-title { @apply m-0 text-base font-semibold text-ink; }
+  .ui-empty-description { @apply m-0 max-w-sm text-sm leading-6 text-muted; }
+  .ui-empty-content { @apply flex flex-wrap justify-center gap-2; }
+  .ui-tabs { @apply min-w-0; }
+  .ui-tabs-list { @apply flex gap-1 border-b border-line/70 bg-[oklch(97.6%_0.004_255)] p-1.5; }
+  .ui-tabs-trigger { @apply inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted transition hover:bg-[oklch(94.5%_0.006_255)] hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/15; }
+  .ui-tabs-trigger svg { @apply size-4 shrink-0; }
+  .ui-tabs-trigger.active { @apply bg-card text-ink shadow-[0_1px_2px_oklch(35%_0.02_255/0.04)]; }
+  .ui-tabs-content { @apply min-w-0; }
+  .ui-progress { @apply h-2 overflow-hidden rounded-full bg-line; }
+  .ui-progress span { @apply block h-full rounded-full bg-accent transition-all; }
+  .ui-table-wrapper { @apply w-full overflow-auto; }
+  .ui-table { @apply w-full border-collapse text-sm; }
+  .ui-table-header { @apply bg-[oklch(97.6%_0.004_255)]; }
+  .ui-table-row { @apply border-b border-line/70 transition hover:bg-[oklch(94.8%_0.006_255)]; }
+  .ui-table-body .ui-table-row:last-child { @apply border-b-0; }
+  .ui-table-head { @apply h-10 px-4 text-left text-[11px] font-semibold uppercase tracking-normal text-muted; }
+  .ui-table-cell { @apply px-4 py-3 align-middle text-sm text-ink; }
+  .ui-table-actions { @apply text-right; }
+  .ui-badge { @apply inline-flex h-6 items-center rounded-md border px-2 text-xs font-medium capitalize; }
+  .ui-badge-default { @apply border-line/80 bg-card text-ink; }
+  .ui-badge-secondary { @apply border-line bg-canvas text-muted; }
+  .ui-badge-outline { @apply border-line bg-panel text-ink; }
+  .ui-badge-success { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .ui-badge-warning { @apply border-amber-200 bg-amber-50 text-amber-800; }
+  .ui-button { @apply inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md border px-3 text-sm font-medium transition duration-150 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20 disabled:pointer-events-none disabled:opacity-50; transition-timing-function: cubic-bezier(0.22,1,0.36,1); }
+  .ui-button-default { @apply border-ink bg-ink text-card shadow-[0_8px_20px_oklch(25%_0.01_255/0.14)] hover:bg-ink/90; }
+  .ui-button-outline { @apply border-line bg-card text-ink shadow-none hover:border-edge hover:bg-[oklch(95.5%_0.006_255)]; }
+  .ui-button-destructive { @apply border-rose-200 bg-card text-rose-700 shadow-none hover:bg-rose-50; }
+  .ui-button-ghost { @apply border-transparent bg-transparent text-ink hover:bg-[oklch(94.5%_0.006_255)]; }
+  .ui-button-sm { @apply h-8 rounded-md px-2.5 text-xs; }
+  .ui-button-icon { @apply size-9 rounded-md px-0; }
+  .ui-button svg { @apply size-4 shrink-0; }
+  .ui-spinner { @apply size-4 shrink-0; animation: spin 1s linear infinite; }
+  .ui-spinner.ui-spinner-lg { @apply size-8; }
+  .ui-skeleton { @apply rounded-md bg-line; animation: skeleton-pulse 1.5s ease-in-out infinite; }
+  .field-grid, .provider-setup-form, .create-form { @apply grid gap-3; }
+  .field-grid.two { @apply grid-cols-2; }
+  .create-form label { @apply grid gap-1 text-sm font-semibold text-ink; }
+  .check-line { @apply flex items-center gap-2; }
+  .create-agent-modal { @apply max-w-xl bg-card; }
+  .create-agent-modal .ui-dialog-header { @apply border-line/70 bg-[oklch(98.4%_0.004_255)] px-4 py-3; }
+  .create-agent-modal .ui-dialog-header > div { @apply grid gap-1; }
+  .create-agent-modal .ui-dialog-title { @apply text-base text-ink; }
+  .create-agent-modal .ui-dialog-description { @apply text-muted; }
+  .create-agent-form { @apply grid min-h-0 grid-rows-[minmax(0,1fr)_auto] bg-card; border: 0; border-radius: 0; box-shadow: none; }
+  .ui-card-content.create-agent-content { @apply grid gap-4 overflow-y-auto px-4 py-4; }
+  .create-agent-option { @apply grid cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-line/80 bg-card p-3 transition duration-150 hover:border-edge hover:bg-[oklch(95.5%_0.006_255)]; transition-timing-function: cubic-bezier(0.22,1,0.36,1); }
+  .create-agent-option-static { @apply cursor-default bg-panel/70 hover:border-line hover:bg-panel/70; }
+  .create-agent-option.selected { @apply border-ink/30 bg-[oklch(95.5%_0.006_255)] shadow-none; }
+  .create-agent-option.disabled { @apply cursor-not-allowed opacity-60 hover:border-line hover:bg-card; }
+  .create-agent-option > svg { @apply size-9 shrink-0 rounded-md border border-line/80 bg-panel p-2 text-muted; }
+  .create-agent-option.selected > svg { @apply border-line bg-card text-ink; }
+  .create-agent-option-copy { @apply grid min-w-0 flex-1 gap-1; }
+  .create-agent-option-copy strong { @apply text-sm text-ink; }
+  .create-agent-option-copy small { @apply text-xs leading-5; }
+  .create-agent-option .ui-checkbox { @apply justify-self-end; }
+  .create-agent-provider-alert { @apply flex-wrap items-start justify-between gap-2; }
+  .create-agent-provider-alert span { @apply min-w-0 flex-1 leading-5; }
+  .create-agent-provider-alert .ui-button { @apply h-8 shrink-0 px-2 text-xs; }
+  .telegram-create-panel { @apply grid gap-3 rounded-lg border border-line/80 bg-panel/60 p-3; }
+  .telegram-create-actions { @apply flex flex-wrap items-center gap-2; }
+  .telegram-create-qr { @apply grid gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center; }
+  .telegram-create-qr img { @apply size-44 rounded-md border border-line bg-[oklch(99%_0.004_255)] p-2; }
+  .telegram-create-qr-copy { @apply grid min-w-0 gap-1; }
+  .telegram-create-qr-copy strong { @apply text-sm text-ink; }
+  .telegram-create-qr-copy small { @apply text-xs leading-5 text-muted; }
+  .telegram-create-qr-copy a { @apply inline-flex w-fit items-center gap-1 text-xs font-semibold uppercase text-ink hover:text-muted; }
+  .create-agent-footer { @apply justify-end bg-[oklch(98.2%_0.004_255)] px-4 py-3; }
+}

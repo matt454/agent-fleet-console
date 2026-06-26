@@ -1,0 +1,24 @@
+# Dependencies and build outputs
+node_modules/
+dist/
+coverage/
+.cache/
+
+# Local configuration and runtime state
+.env
+.env.*
+!.env.example
+data/
+runtime/
+logs/
+secrets/
+vendor/hermes-agent/
+
+# OS/editor noise and logs
+.DS_Store
+*.log
+*.pid
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+data/

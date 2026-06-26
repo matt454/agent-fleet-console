@@ -1,0 +1,266 @@
+@layer components {
+  .credential-list, .job-list { @apply grid gap-2; }
+  .jobs-card { @apply shadow-none; }
+  .jobs-card .ui-card-header { @apply items-center bg-[oklch(98.2%_0.004_255)]; }
+  .jobs-card-content { @apply p-0; }
+  .jobs-table .ui-table-head { @apply h-9 px-4; }
+  .jobs-table .ui-table-cell { @apply px-4 py-3; }
+  .job-table-primary { @apply grid max-w-xl gap-1; }
+  .job-table-primary strong { @apply text-sm font-semibold text-ink; }
+  .job-table-primary span { @apply text-xs text-muted; }
+  .job-table-primary p { @apply m-0 truncate text-xs text-muted; }
+  .job-table-progress { @apply grid min-w-28 gap-1.5; }
+  .job-table-progress > span { @apply text-xs font-semibold text-muted; }
+  .job-table-time { @apply whitespace-nowrap text-xs text-muted; }
+  .jobs-empty { @apply min-h-72 border-0 bg-transparent; }
+  .gateway-tab { @apply grid min-h-0 content-start overflow-x-hidden overflow-y-auto; }
+  .gateway-card { @apply min-h-0 shadow-none; }
+  .gateway-card-content { @apply grid min-h-0 gap-4 p-4; }
+  .gateway-toolbar { @apply flex items-center justify-between gap-3; }
+  .gateway-segmented { @apply rounded-md border border-line/80 bg-[oklch(97.6%_0.004_255)] p-1; }
+  .gateway-segmented .ui-tabs-trigger { @apply inline-flex h-8 items-center gap-2 px-2.5 text-xs; }
+  .gateway-meta { @apply grid grid-cols-3 gap-3; }
+  .gateway-meta > span { @apply grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 gap-y-0.5 rounded-md border border-line/80 bg-card px-4 py-3 text-xs font-medium shadow-none transition hover:border-edge hover:bg-[oklch(95.5%_0.006_255)]; }
+  .gateway-meta svg { @apply row-span-2 size-4 text-muted; }
+  .gateway-meta span span { @apply truncate text-muted; }
+  .gateway-meta strong { @apply truncate text-sm font-semibold text-ink; }
+  .gateway-meta a { @apply inline-flex min-w-0 items-center gap-1 text-accent hover:underline; }
+  .gateway-meta a strong { @apply text-accent; }
+  .gateway-meta a svg { @apply row-auto size-3 shrink-0 text-accent; }
+  .gateway-auth-strip { @apply flex flex-wrap items-center gap-2 rounded-md border border-line/80 bg-card px-3 py-2 text-xs font-medium text-muted; }
+  .gateway-auth-strip > svg { @apply size-4 text-muted; }
+  .gateway-auth-strip code { @apply rounded-md border border-line bg-panel px-2 py-1 font-mono text-xs text-ink; }
+  .gateway-frame-shell, .terminal-card { @apply min-h-[560px] overflow-hidden rounded-lg border border-line/80 bg-card; }
+  .gateway-frame-shell { @apply relative min-h-[min(560px,calc(100vh-360px))]; }
+  .gateway-frame { @apply block h-full min-h-[560px] w-full border-0 bg-panel; }
+  .gateway-frame-loading { @apply absolute inset-0 z-10 grid place-items-center content-center gap-2 bg-panel text-sm text-muted; }
+  .gateway-frame-loading svg { @apply size-5; }
+  .gateway-empty { @apply h-full min-h-[560px] border-0 bg-card text-center; }
+  .terminal-card { @apply grid grid-rows-[auto_auto_minmax(0,1fr)]; }
+  .dashboard-panel-header { @apply flex min-h-0 flex-wrap items-start justify-between gap-3 border-b border-line/70 bg-[oklch(98.2%_0.004_255)] px-4 py-3; }
+  .dashboard-panel-header-main { @apply flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3; }
+  .dashboard-panel-title { @apply grid min-w-0 gap-0.5; }
+  .dashboard-panel-title .ui-card-title { @apply truncate text-sm text-ink; }
+  .dashboard-panel-subtitle { @apply truncate text-xs text-muted; }
+  .dashboard-panel-actions { @apply flex shrink-0 items-center gap-2; }
+  .dashboard-panel-actions .typing-indicator svg { @apply size-3.5; }
+  .dashboard-panel-actions .typing-indicator { @apply inline-flex shrink-0 items-center gap-1.5 border-line/80 bg-card text-xs font-medium text-muted; }
+  .terminal-alert { @apply m-3 mb-0 border-amber-300 bg-amber-50 text-amber-950; }
+  .terminal-content { @apply min-h-[480px] bg-slate-950; }
+  .terminal-shell { @apply h-full min-h-[480px] p-2; }
+  .services-tab { @apply grid content-start gap-3; }
+  .service-summary-grid { @apply grid grid-flow-dense gap-4 md:grid-cols-3; }
+  .service-summary-card, .service-inventory-card { @apply shadow-none; }
+  .service-summary-card .ui-card-header { @apply justify-start border-b-0 px-4 pb-1 pt-4; }
+  .service-summary-card .ui-card-header > svg { @apply grid size-9 shrink-0 place-items-center rounded-md border border-line/80 bg-panel p-2 text-muted; }
+  .service-summary-card .ui-card-header > div { @apply grid gap-1; }
+  .service-summary-card .ui-card-title { @apply text-xl tabular-nums; }
+  .service-summary-card .ui-card-description { @apply m-0; }
+  .service-summary-card .ui-card-content { @apply px-4 pb-4 pt-0; }
+  .service-summary-card .ui-card-content > span:not(.ui-badge) { @apply text-xs text-muted; }
+  .service-inventory-card .ui-card-header { @apply items-center bg-[oklch(98.2%_0.004_255)] px-4 py-4; }
+  .service-inventory-card .ui-card-content { @apply p-0; }
+  .services-table .ui-table-head { @apply h-9 px-4; }
+  .services-table .ui-table-cell { @apply px-4 py-3; }
+  .service-name-cell { @apply grid min-w-52 gap-1; }
+  .service-name-cell strong { @apply truncate text-sm text-ink; }
+  .service-name-cell small { @apply truncate text-xs; }
+  .service-status-copy { @apply block max-w-sm text-xs leading-5; }
+  .service-health-cell { @apply grid min-w-28 gap-2; }
+  .service-health-cell > span { @apply inline-flex items-center gap-1.5 text-xs font-semibold; }
+  .service-health-cell svg { @apply size-4; }
+  .service-empty { @apply min-h-72 border-0 bg-transparent text-center; }
+  .service-url-link { @apply inline-flex items-center gap-1 text-xs text-accent hover:underline; }
+  .settings-eyebrow { @apply w-fit rounded-md border border-line/80 bg-card px-2 py-0.5 text-[10px] font-semibold uppercase tracking-normal text-muted; }
+  .settings-page-layout { @apply h-full grid-rows-[minmax(0,1fr)]; }
+  .settings-shell { @apply grid h-full min-h-0 grid-cols-[15rem_minmax(0,1fr)] gap-0 overflow-hidden bg-canvas p-0; }
+  .settings-rail { @apply grid content-start gap-0.5 border-r border-line/70 bg-[oklch(97.2%_0.004_255)] p-2 shadow-none; }
+  .settings-rail-button { @apply relative grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md border border-transparent px-3 py-2.5 text-left transition duration-150 active:scale-[0.99]; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .settings-rail-button:hover { @apply bg-[oklch(94.5%_0.006_255)]; }
+  .settings-rail-button:focus-visible { @apply outline-none ring-2 ring-accent/20 ring-offset-2 ring-offset-card; }
+  .settings-rail-button.active { @apply border-line/80 bg-card text-ink shadow-[0_1px_2px_oklch(35%_0.02_255/0.04)]; }
+  .settings-rail-button.active:hover { @apply bg-card; }
+  .settings-rail-marker { @apply absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-transparent transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .settings-rail-button.active .settings-rail-marker { @apply bg-ink; }
+  .settings-rail-icon { @apply size-4 shrink-0 text-muted transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .settings-rail-button.active .settings-rail-icon { @apply text-ink; }
+  .settings-rail-copy { @apply grid min-w-0 gap-0.5; }
+  .settings-rail-button strong { @apply truncate text-[13px] font-semibold text-ink; }
+  .settings-rail-button small { @apply truncate text-[11px] text-muted; }
+  .settings-rail-button.active strong { @apply text-ink; }
+  .settings-rail-button.active small { @apply text-muted; }
+  .settings-rail-button.tone-success .settings-rail-icon { @apply text-emerald-600; }
+  .settings-rail-button.tone-warning .settings-rail-icon { @apply text-amber-600; }
+  .settings-workspace {
+    @apply min-h-0 overflow-auto bg-card p-4 shadow-none;
+    contain: layout paint;
+    height: 100%;
+    max-height: 100%;
+    scrollbar-gutter: stable;
+  }
+  .settings-layout { @apply grid min-h-full content-start gap-3 bg-transparent p-0; }
+  .settings-section { @apply grid content-start rounded-lg border border-line/80 bg-card shadow-none; }
+  .settings-section + .settings-section { @apply mt-0 rounded-t-none border-t-0; }
+  .settings-section-primary { @apply min-h-full; }
+  .settings-section-header { @apply items-center px-4 py-3.5; }
+  .settings-section-header .ui-card-title { @apply text-[15px]; }
+  .settings-section-header > svg { @apply size-4 text-muted; }
+  .settings-header-actions { @apply flex flex-wrap items-center justify-end gap-2; }
+  .settings-header-actions .settings-sync-scope { @apply min-w-0; }
+  .ui-card-content.settings-section-content { @apply grid content-start gap-0 px-4 py-4; }
+  .settings-provider-footer { @apply z-10 justify-between border-t border-line/70 bg-card px-4 py-3; }
+  .settings-secondary-actions { @apply flex flex-wrap items-center gap-2; }
+  .settings-sync-scope { @apply text-xs font-medium text-muted; }
+  .provider-draft-warning { @apply text-amber-700; }
+  .provider-settings-content { @apply content-start; }
+  .settings-stepper { @apply m-0 grid content-start list-none gap-2 p-0; }
+  .settings-step { @apply grid content-start rounded-md border border-line/70 bg-card transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .settings-step.active { @apply border-ink/25 shadow-[0_1px_3px_oklch(35%_0.02_255/0.06)]; }
+  .settings-step.complete { @apply border-line/70; }
+  .settings-step.locked { @apply border-dashed border-line/60 bg-[oklch(97.6%_0.004_255)/0.5]; }
+  .settings-step-header { @apply grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md px-3.5 py-3 text-left transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .settings-step-header:not(:disabled) { @apply cursor-pointer hover:bg-[oklch(96.8%_0.004_255)]; }
+  .settings-step-header:disabled { @apply cursor-default; }
+  .settings-step-header:focus-visible { @apply outline-none ring-2 ring-accent/20; }
+  .settings-step-marker { @apply grid size-6 shrink-0 place-items-center rounded-full border border-line/70 bg-[oklch(97.6%_0.004_255)] text-[11px] font-bold text-muted transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .settings-step.active .settings-step-marker { @apply border-ink bg-ink text-card; }
+  .settings-step.complete .settings-step-marker { @apply border-emerald-500 bg-emerald-600 text-white; }
+  .settings-step.locked .settings-step-marker { @apply opacity-50; }
+  .settings-step-copy { @apply grid min-w-0 gap-0.5; }
+  .settings-step-copy strong { @apply truncate text-[13px] font-semibold text-ink; }
+  .settings-step.locked .settings-step-copy strong { @apply text-muted; }
+  .settings-step-copy small { @apply truncate text-xs text-muted; }
+  .settings-step-body { @apply grid gap-3 border-t border-line/70 px-3.5 py-3.5; }
+  .settings-step-note { @apply m-0 text-sm leading-5 text-muted; }
+  .settings-sync-actions { @apply flex flex-wrap items-center justify-end gap-2; }
+  .settings-step-form, .settings-node-form { @apply grid gap-3 rounded-md border border-line/70 bg-[oklch(97.6%_0.004_255)] p-3 shadow-none; }
+  .settings-form-actions { @apply flex flex-wrap items-center justify-end gap-2 border-t border-line/70 pt-3; }
+  .credential-suggested-key { @apply flex justify-start; }
+  .provider-model-grid { @apply grid gap-3 md:grid-cols-3; }
+  .provider-model-grid .ui-field { @apply grid content-start gap-1; grid-template-rows: auto 2.25rem minmax(2.25rem, auto); }
+  .provider-model-grid .ui-input, .provider-model-grid [data-slot="select-trigger"] { @apply h-9 w-full; }
+  .provider-model-grid .ui-field-description { @apply min-h-9 leading-4; }
+  .provider-auth-confirmation { @apply flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm font-medium text-emerald-800; }
+  .provider-auth-confirmation svg { @apply size-4 text-emerald-600; }
+  .inline-api-key-form { @apply grid gap-3; }
+  .inline-api-key-status { @apply flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-xs; }
+  .inline-api-key-status svg { @apply size-4 shrink-0 text-emerald-600; }
+  .inline-api-key-status span { @apply min-w-0 flex-1; }
+  .inline-api-key-status strong { @apply font-semibold text-ink; }
+  .inline-api-key-entry { @apply grid gap-3 rounded-md border border-line/70 bg-[oklch(97.6%_0.004_255)] p-3 shadow-none; }
+  .inline-api-key-actions { @apply flex flex-wrap items-center justify-end gap-2; }
+  .provider-save-fields { @apply grid gap-3; }
+  .provider-save-detail { @apply m-0 text-sm leading-5 text-muted; }
+  .provider-save-fields .ui-button { @apply justify-self-start; }
+  .provider-apply-fields { @apply grid gap-3; }
+  .provider-apply-actions { @apply flex flex-wrap items-center justify-end gap-2; }
+  .provider-panel { @apply grid gap-3 rounded-md border border-dashed border-line/80 bg-[oklch(97.6%_0.004_255)] p-3; }
+  .custom-endpoint-list { @apply grid gap-2; }
+  .custom-endpoint-row { @apply grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-line/70 px-0 py-2 transition duration-150 last:border-b-0; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .custom-endpoint-row:hover { @apply bg-[oklch(95.5%_0.006_255)]; }
+  .custom-endpoint-row.active { @apply bg-[oklch(95.5%_0.006_255)]; }
+  .custom-endpoint-select { @apply flex min-w-0 items-center gap-2 rounded-md px-1.5 py-1 text-left text-xs font-medium text-ink transition hover:text-muted disabled:cursor-not-allowed disabled:opacity-60; }
+  .custom-endpoint-select:focus-visible { @apply outline-none ring-2 ring-accent/25; }
+  .custom-endpoint-select svg { @apply size-3.5 shrink-0 text-muted; }
+  .custom-endpoint-select span { @apply min-w-0 truncate font-mono; }
+  .custom-endpoint-empty { @apply border-y border-dashed border-line bg-transparent px-0 py-3 text-xs text-muted; }
+  .custom-endpoint-add { @apply grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2; }
+  .provider-apply-panel .settings-sync-targets { @apply bg-transparent; }
+  .codex-auth-panel { @apply grid gap-3 rounded-md border border-line/70 bg-[oklch(97.6%_0.004_255)] p-3 shadow-none; }
+  .codex-auth-heading { @apply grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-3; }
+  .codex-auth-heading > svg { @apply mt-0.5 size-4 text-accent; }
+  .codex-auth-heading div { @apply grid min-w-0 gap-1; }
+  .codex-auth-heading strong { @apply text-sm font-semibold text-ink; }
+  .codex-auth-heading span, .codex-auth-muted { @apply text-xs text-muted; }
+  .codex-auth-summary { @apply grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 border-y border-line/70 bg-transparent px-0 py-2 text-xs; }
+  .codex-auth-summary svg { @apply size-4 text-emerald-600; }
+  .codex-auth-summary span { @apply min-w-0 truncate text-muted; }
+  .codex-auth-summary strong { @apply whitespace-nowrap font-semibold text-ink; }
+  .codex-device-session { @apply grid gap-2 rounded-md border border-dashed border-line bg-card/60 p-3 text-xs; }
+  .codex-device-session > strong { @apply w-fit rounded-md border border-line bg-card px-3 py-2 font-mono text-base tracking-wide text-ink; }
+  .codex-auth-actions { @apply flex flex-wrap items-center gap-2; }
+  .settings-collapsible-header .ui-button { @apply shrink-0; }
+  .settings-credentials-trigger { @apply gap-2; }
+  .settings-credentials-trigger .ui-badge { @apply h-5 px-1.5; }
+  .settings-collapsible-header [data-slot="collapsible-trigger"] svg:last-child { @apply transition-transform; }
+  [data-state="open"] > .settings-section .settings-collapsible-header [data-slot="collapsible-trigger"] svg:last-child { @apply rotate-180; }
+  .credentials-onboarding { @apply grid gap-2.5 rounded-md border border-line/70 bg-[oklch(97.6%_0.004_255)] px-3.5 py-3; }
+  .credentials-onboarding-main { @apply flex flex-wrap items-center justify-between gap-3; }
+  .credentials-onboarding-copy { @apply grid min-w-0 max-w-[72ch] gap-0.5; }
+  .credentials-onboarding-copy strong { @apply text-[13px] font-semibold text-ink; }
+  .credentials-onboarding-copy span { @apply text-xs leading-5 text-muted; }
+  .credentials-onboarding-steps { @apply m-0 grid list-none grid-cols-1 gap-x-4 gap-y-1 p-0 sm:grid-cols-3 sm:gap-y-0; }
+  .credentials-onboarding-step { @apply grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 items-center py-1.5; }
+  .credentials-onboarding-step > span { @apply grid size-5 place-items-center rounded-full border border-line/70 bg-card text-[10px] font-bold text-muted; }
+  .credentials-onboarding-step strong { @apply min-w-0 text-[11px] font-semibold text-ink; }
+  .credentials-onboarding-step small { @apply col-start-2 min-w-0 truncate text-[11px] leading-tight text-muted; }
+  .settings-credential-form { @apply shadow-none; }
+  .settings-credential-step-form .settings-credential-fields { @apply items-start; }
+  .settings-credential-step-form .ui-field { @apply grid content-start gap-1; grid-template-rows: auto 2.25rem minmax(2.5rem, auto); }
+  .settings-credential-step-form .ui-input { @apply h-9 w-full; }
+  .settings-credential-step-form .ui-field-description { @apply min-h-10 leading-5; }
+  .settings-credential-step-form .settings-credential-save { @apply justify-self-start; }
+  .ui-card-content.settings-credential-entry { @apply grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 px-3.5 py-3.5; }
+  .settings-credential-fields { @apply grid grid-cols-2 gap-3; }
+  .settings-credential-save { @apply shrink-0 justify-self-start; }
+  .settings-credential-list-content { @apply grid gap-2; }
+  .settings-node-list { @apply grid gap-2; }
+  .settings-node-form-grid { @apply grid gap-3 md:grid-cols-2; }
+  .settings-node-token-field { @apply md:col-span-2; }
+  .settings-node-row { @apply grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-3 border-b border-line/70 bg-transparent px-0 py-2.5 last:border-b-0; }
+  .settings-node-row > div:first-child { @apply grid min-w-0 gap-0.5; }
+  .settings-node-row strong { @apply truncate text-sm text-ink; }
+  .settings-node-row span { @apply truncate text-xs text-muted; }
+  .settings-node-row small { @apply truncate text-[11px] text-muted; }
+  .settings-node-actions { @apply flex flex-wrap items-center justify-end gap-1.5; }
+  .settings-node-actions .ui-button { @apply h-8; }
+  .settings-node-enabled { @apply flex items-center gap-2 text-xs font-semibold text-muted; }
+  .settings-subsection-heading { @apply flex items-center justify-between gap-3; }
+  .settings-subsection-heading strong { @apply text-xs font-semibold text-ink; }
+  .settings-subsection-heading span { @apply text-xs text-muted; }
+  .settings-sync-targets { @apply grid gap-3 border-y border-line/70 bg-transparent py-3; }
+  .settings-sync-target-all { @apply flex min-h-11 items-center gap-2 rounded-md border border-line/70 bg-[oklch(97.6%_0.004_255)] px-3 py-2 text-xs font-semibold text-ink; }
+  .settings-sync-target-list { @apply grid gap-2; }
+  .settings-sync-target-list, .settings-node-list, .credential-list-deferred { content-visibility: auto; contain-intrinsic-size: 320px; }
+  .settings-sync-target-group { @apply grid gap-1 rounded-none border-t border-line/70 bg-transparent pt-2 first:border-t-0 first:pt-0; }
+  .settings-sync-target-group > strong { @apply border-b border-line/70 pb-1 text-[11px] font-semibold uppercase tracking-normal text-muted; }
+  .settings-sync-target-row { @apply grid min-h-10 min-w-0 grid-cols-[auto_minmax(0,1fr)_minmax(8rem,auto)] items-center gap-2 rounded-md px-2 py-1.5 text-sm transition hover:bg-[oklch(95.5%_0.006_255)]; }
+  .settings-sync-target-row span { @apply truncate font-medium text-ink; }
+  .settings-sync-target-row small { @apply truncate text-xs text-muted; }
+  .settings-credential-table .ui-table-wrapper { @apply overflow-visible; }
+  .credential-row { @apply border-b border-line bg-transparent last:border-b-0; }
+  .credential-row .ui-table-cell { @apply px-0 py-2; }
+  .credential-cell-copy { @apply grid gap-1; }
+  .credential-cell-copy strong { @apply text-sm font-semibold text-ink; }
+  .credential-cell-copy span { @apply text-xs text-muted; }
+  .credential-list .ui-empty, .settings-empty { @apply min-h-0 justify-items-start p-3 text-left; }
+  .settings-footer-actions { @apply flex flex-wrap items-center justify-end gap-2; }
+  .backup-restore-panel > svg, .settings-section-header > svg { @apply size-4 text-muted; }
+  .backup-panel-content { @apply grid gap-4; }
+  .backup-option-grid { @apply grid gap-3 md:grid-cols-2; }
+  .backup-option-stack { @apply grid gap-2; }
+  .backup-option { @apply flex min-w-0 items-start gap-3 rounded-md border border-line/70 bg-transparent p-3 text-left transition hover:border-edge hover:bg-[oklch(95.5%_0.006_255)]; }
+  .backup-option.warning { @apply border-amber-200 bg-amber-50/35; }
+  .backup-option .ui-checkbox { @apply mt-0.5 shrink-0; }
+  .backup-option span { @apply grid min-w-0 gap-1; }
+  .backup-option strong { @apply text-sm font-semibold text-ink; }
+  .backup-option small { @apply text-xs text-muted; }
+  .backup-panel-footer { @apply justify-end gap-2 px-0 py-0; }
+  .backup-table .ui-table-cell { @apply px-0 py-2; }
+  .backup-table-deferred { content-visibility: auto; contain-intrinsic-size: 320px; }
+  .backup-file-cell { @apply grid min-w-0 gap-1; }
+  .backup-file-cell strong { @apply truncate text-sm text-ink; }
+  .backup-file-cell span { @apply text-xs text-muted; }
+  .backup-empty { @apply grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3 border-y border-dashed border-line bg-transparent px-0 py-4; }
+  .backup-empty > svg { @apply mt-0.5 size-4 text-muted; }
+  .backup-empty div { @apply grid min-w-0 gap-1; }
+  .backup-empty strong { @apply text-sm font-semibold text-ink; }
+  .backup-empty span { @apply text-xs leading-5 text-muted; }
+  .backup-restore-form { @apply grid gap-3 rounded-lg border border-line bg-panel/60 p-3; }
+  .message-log-row { @apply items-start bg-canvas/50; }
+  .message-log-row p { @apply mt-1 text-sm leading-6; }
+  .fleet-empty-state { @apply mx-auto w-full max-w-md border-0 bg-transparent; min-height: 560px; }
+  .fleet-empty-panel-content { @apply grid min-h-0 place-items-center; }
+  .agent-modal-chat, .agent-modal-chat .transcript-panel { @apply h-full min-h-0; }
+  .spin { animation: spin 1s linear infinite; }
+}

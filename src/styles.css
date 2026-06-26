@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "@xterm/xterm/css/xterm.css";
+@import "./styles/theme.css";
+@import "./styles/layout.css";
+@import "./styles/chat.css";
+@import "./styles/onboarding.css";
+@import "./styles/agent-detail.css";
+@import "./styles/primitives.css";
+@import "./styles/operations.css";
+@import "./styles/responsive.css";

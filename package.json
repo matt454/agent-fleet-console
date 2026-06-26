@@ -1,0 +1,74 @@
+{
+  "name": "hermes-fleet-console",
+  "private": true,
+  "version": "0.1.9",
+  "description": "Local-first web console for operating Dockerized Hermes and NemoClaw agent fleets.",
+  "license": "MIT",
+  "author": "Matthew Lockyer",
+  "type": "module",
+  "keywords": [
+    "agents",
+    "dashboard",
+    "docker",
+    "fleet",
+    "hermes",
+    "local-first"
+  ],
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt454/agent-fleet-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/matt454/agent-fleet-console/issues"
+  },
+  "homepage": "https://github.com/matt454/agent-fleet-console#readme",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:frontend": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "check": "tsc --noEmit",
+    "test": "tsx --test tests/**/*.test.ts",
+    "setup": "node scripts/setup.mjs",
+    "start": "node scripts/start.mjs",
+    "start:server": "tsx server/index.ts",
+    "serve": "npm start",
+    "init:baseline": "node scripts/init-baseline.mjs",
+    "setup:baseline": "node scripts/setup-baseline.mjs",
+    "audit:release": "node scripts/release-audit.mjs",
+    "knip": "knip --no-progress",
+    "release:check": "npm run check && npm test && npm run build && npm run audit:release && npm audit --omit=dev && npm run knip"
+  },
+  "dependencies": {
+    "@types/qrcode": "^1.5.6",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "clsx": "^2.1.1",
+    "express": "^5.1.0",
+    "lucide-react": "^0.511.0",
+    "qrcode": "^1.5.4",
+    "radix-ui": "^1.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "knip": "^6.18.0",
+    "tailwindcss": "^4.3.1",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
+  }
+}

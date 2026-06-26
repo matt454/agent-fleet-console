@@ -1,0 +1,5 @@
+{
+  "ignore": [
+    "docker/webhost/server.mjs"
+  ]
+}

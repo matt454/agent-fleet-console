@@ -1,0 +1,151 @@
+@layer components {
+  .onboarding-page {
+    @apply grid min-h-0 content-start gap-3 bg-transparent p-0 text-ink;
+  }
+
+  .onboarding-status-row {
+    @apply flex items-center gap-2;
+  }
+
+  .onboarding-body {
+    @apply grid content-start gap-3 px-4 pb-4;
+  }
+  .onboarding-next-step {
+    @apply grid gap-3 rounded-lg border border-line/70 bg-panel px-4 py-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center;
+    contain: layout paint;
+  }
+  .onboarding-next-step > div:first-child {
+    @apply grid min-w-0 gap-0.5;
+  }
+  .onboarding-next-step strong {
+    @apply text-sm font-semibold text-ink;
+  }
+  .onboarding-next-step span {
+    @apply text-xs font-medium leading-5 text-muted;
+  }
+  .onboarding-next-step.ready {
+    @apply border-emerald-200 bg-emerald-50/40;
+  }
+  .onboarding-next-step.attention {
+    @apply border-amber-200 bg-amber-50/80 text-amber-900;
+  }
+  .onboarding-next-step.attention strong {
+    @apply text-amber-950;
+  }
+  .onboarding-next-step.attention span {
+    @apply text-amber-900;
+  }
+  .onboarding-next-actions {
+    @apply flex flex-wrap items-center justify-start gap-2 md:justify-end;
+  }
+  .onboarding-command-copy {
+    @apply flex flex-wrap items-center justify-start gap-2 md:justify-end;
+  }
+  .onboarding-command-copy code {
+    @apply min-w-36;
+  }
+
+  .onboarding-checks {
+    @apply grid overflow-hidden rounded-lg border border-line/70 bg-card;
+    contain: layout paint;
+  }
+  .onboarding-checks > header {
+    @apply flex flex-wrap items-center gap-2 border-b border-line/70 bg-[oklch(97.6%_0.004_255)] px-4 py-3;
+  }
+  .onboarding-checks > header > div {
+    @apply grid min-w-0 gap-0.5;
+  }
+  .onboarding-checks > header strong {
+    @apply text-sm font-semibold text-ink;
+  }
+  .onboarding-checks > header span {
+    @apply text-xs text-muted;
+  }
+  .onboarding-checks > header .ui-badge {
+    @apply ml-auto;
+  }
+
+  .onboarding-check-list {
+    @apply grid;
+    content-visibility: auto;
+    contain-intrinsic-size: 360px;
+  }
+  .onboarding-check-row {
+    @apply grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-3 border-b border-line/70 bg-card px-4 py-3 transition duration-150 last:border-b-0 hover:bg-[oklch(95.5%_0.006_255)];
+    transition-timing-function: cubic-bezier(0.22,1,0.36,1);
+  }
+  .onboarding-check-row.tone-ok {
+    @apply opacity-90;
+  }
+  .onboarding-check-icon {
+    @apply grid size-7 place-items-center rounded-md border border-line bg-panel text-muted;
+  }
+  .onboarding-check-row.tone-ok .onboarding-check-icon {
+    @apply border-emerald-200/70 text-emerald-700;
+  }
+  .onboarding-check-row.tone-warn .onboarding-check-icon {
+    @apply border-amber-200/70 text-amber-700;
+  }
+  .onboarding-check-row.tone-error .onboarding-check-icon {
+    @apply border-rose-200/70 text-rose-700;
+  }
+  .onboarding-check-icon svg {
+    @apply size-4;
+  }
+  .onboarding-check-row > div {
+    @apply grid min-w-0 gap-1;
+  }
+  .onboarding-check-row strong {
+    @apply truncate text-sm font-semibold text-ink;
+  }
+  .onboarding-check-row span {
+    @apply min-w-0 text-xs leading-5 text-muted;
+  }
+  .onboarding-check-row small {
+    @apply min-w-0 rounded-md border border-line/80 bg-panel px-2 py-1 font-mono text-[11px] leading-5 text-muted;
+  }
+  .onboarding-check-badge {
+    @apply mt-1;
+  }
+  .onboarding-check-empty {
+    @apply px-4 py-3 text-sm text-muted;
+  }
+
+  .onboarding-checks-footer {
+    @apply flex flex-wrap justify-end gap-2 border-t border-line/70 px-4 py-3;
+  }
+
+  .onboarding-skeleton {
+    @apply grid gap-3 px-4 py-3;
+  }
+  .onboarding-skeleton .ui-skeleton {
+    @apply h-14 rounded-lg;
+  }
+}
+
+@media (max-width: 900px) {
+  .onboarding-page {
+    @apply gap-3;
+  }
+  .onboarding-command-copy {
+    @apply grid;
+  }
+  .onboarding-command-copy .ui-button {
+    @apply w-full;
+  }
+  .onboarding-next-actions {
+    @apply grid;
+  }
+  .onboarding-next-actions .ui-button {
+    @apply w-full;
+  }
+  .onboarding-check-row {
+    @apply grid-cols-[auto_minmax(0,1fr)];
+  }
+  .onboarding-check-row .ui-badge {
+    @apply col-span-2 w-fit;
+  }
+  .onboarding-check-badge {
+    @apply ml-11 mt-0;
+  }
+}

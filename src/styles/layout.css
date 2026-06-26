@@ -1,0 +1,397 @@
+@layer components {
+  .splash-screen { @apply relative grid min-h-screen place-items-center overflow-hidden bg-[oklch(8%_0.02_260)] px-5 text-[oklch(95%_0.006_255)]; }
+  .splash-screen::before {
+    @apply pointer-events-none absolute inset-0 content-[''];
+    background-image:
+      radial-gradient(1px 1px at 2% 3%, oklch(96% 0.008 260 / 0.7), transparent),
+      radial-gradient(1.2px 1.2px at 4% 8%, oklch(90% 0.01 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 6% 12%, oklch(88% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 8% 5%, oklch(98% 0.005 260 / 0.8), transparent),
+      radial-gradient(1px 1px at 10% 15%, oklch(95% 0.01 260 / 0.6), transparent),
+      radial-gradient(1.1px 1.1px at 12% 22%, oklch(87% 0.01 260 / 0.35), transparent),
+      radial-gradient(1px 1px at 14% 9%, oklch(92% 0.008 260 / 0.55), transparent),
+      radial-gradient(1.3px 1.3px at 16% 28%, oklch(89% 0.01 260 / 0.45), transparent),
+      radial-gradient(1px 1px at 18% 17%, oklch(94% 0.008 260 / 0.6), transparent),
+      radial-gradient(1.2px 1.2px at 20% 35%, oklch(90% 0.01 260 / 0.4), transparent),
+      radial-gradient(1px 1px at 22% 42%, oklch(86% 0.01 260 / 0.3), transparent),
+      radial-gradient(1.4px 1.4px at 24% 19%, oklch(97% 0.006 260 / 0.75), transparent),
+      radial-gradient(1px 1px at 26% 51%, oklch(88% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.1px 1.1px at 28% 33%, oklch(91% 0.01 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 30% 60%, oklch(98% 0.005 260 / 0.7), transparent),
+      radial-gradient(1.3px 1.3px at 32% 44%, oklch(85% 0.01 260 / 0.25), transparent),
+      radial-gradient(1px 1px at 34% 72%, oklch(93% 0.008 260 / 0.55), transparent),
+      radial-gradient(1.2px 1.2px at 36% 25%, oklch(89% 0.01 260 / 0.35), transparent),
+      radial-gradient(1px 1px at 38% 88%, oklch(91% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 40% 58%, oklch(96% 0.008 260 / 0.65), transparent),
+      radial-gradient(1px 1px at 42% 52%, oklch(90% 0.01 260 / 0.35), transparent),
+      radial-gradient(1.1px 1.1px at 44% 81%, oklch(87% 0.01 260 / 0.3), transparent),
+      radial-gradient(1px 1px at 46% 37%, oklch(94% 0.008 260 / 0.5), transparent),
+      radial-gradient(1.4px 1.4px at 48% 66%, oklch(92% 0.008 260 / 0.6), transparent),
+      radial-gradient(1px 1px at 50% 92%, oklch(93% 0.008 260 / 0.35), transparent),
+      radial-gradient(1.2px 1.2px at 52% 14%, oklch(88% 0.01 260 / 0.4), transparent),
+      radial-gradient(1px 1px at 54% 78%, oklch(95% 0.01 260 / 0.55), transparent),
+      radial-gradient(1.3px 1.3px at 56% 41%, oklch(86% 0.01 260 / 0.25), transparent),
+      radial-gradient(1px 1px at 58% 85%, oklch(91% 0.01 260 / 0.45), transparent),
+      radial-gradient(1.1px 1.1px at 60% 65%, oklch(92% 0.008 260 / 0.4), transparent),
+      radial-gradient(1px 1px at 62% 23%, oklch(89% 0.01 260 / 0.35), transparent),
+      radial-gradient(1.5px 1.5px at 64% 94%, oklch(97% 0.006 260 / 0.7), transparent),
+      radial-gradient(1px 1px at 66% 53%, oklch(85% 0.01 260 / 0.2), transparent),
+      radial-gradient(1.2px 1.2px at 68% 31%, oklch(94% 0.008 260 / 0.55), transparent),
+      radial-gradient(1px 1px at 70% 5%, oklch(86% 0.01 260 / 0.25), transparent),
+      radial-gradient(1.4px 1.4px at 72% 68%, oklch(90% 0.01 260 / 0.45), transparent),
+      radial-gradient(1px 1px at 74% 47%, oklch(93% 0.008 260 / 0.5), transparent),
+      radial-gradient(1.1px 1.1px at 76% 82%, oklch(88% 0.01 260 / 0.3), transparent),
+      radial-gradient(1px 1px at 78% 16%, oklch(95% 0.01 260 / 0.6), transparent),
+      radial-gradient(1.3px 1.3px at 80% 40%, oklch(95% 0.008 260 / 0.55), transparent),
+      radial-gradient(1px 1px at 82% 71%, oklch(87% 0.01 260 / 0.35), transparent),
+      radial-gradient(1.2px 1.2px at 84% 29%, oklch(92% 0.008 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 86% 96%, oklch(89% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 88% 56%, oklch(96% 0.008 260 / 0.65), transparent),
+      radial-gradient(1px 1px at 90% 13%, oklch(85% 0.01 260 / 0.2), transparent),
+      radial-gradient(1.1px 1.1px at 92% 85%, oklch(94% 0.008 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 94% 43%, oklch(91% 0.01 260 / 0.45), transparent),
+      radial-gradient(1.3px 1.3px at 96% 76%, oklch(88% 0.01 260 / 0.35), transparent),
+      radial-gradient(1px 1px at 98% 21%, oklch(93% 0.008 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 3% 27%, oklch(90% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.2px 1.2px at 7% 48%, oklch(86% 0.01 260 / 0.25), transparent),
+      radial-gradient(1px 1px at 11% 63%, oklch(95% 0.008 260 / 0.55), transparent),
+      radial-gradient(1.4px 1.4px at 15% 50%, oklch(89% 0.01 260 / 0.45), transparent),
+      radial-gradient(1px 1px at 19% 79%, oklch(92% 0.008 260 / 0.5), transparent),
+      radial-gradient(1.1px 1.1px at 23% 6%, oklch(87% 0.01 260 / 0.3), transparent),
+      radial-gradient(1px 1px at 27% 83%, oklch(94% 0.008 260 / 0.6), transparent),
+      radial-gradient(1.3px 1.3px at 31% 11%, oklch(85% 0.01 260 / 0.2), transparent),
+      radial-gradient(1px 1px at 35% 95%, oklch(91% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.2px 1.2px at 39% 39%, oklch(96% 0.006 260 / 0.7), transparent),
+      radial-gradient(1px 1px at 43% 67%, oklch(88% 0.01 260 / 0.35), transparent),
+      radial-gradient(1.5px 1.5px at 47% 2%, oklch(98% 0.005 260 / 0.8), transparent),
+      radial-gradient(1px 1px at 51% 54%, oklch(90% 0.01 260 / 0.45), transparent),
+      radial-gradient(1.1px 1.1px at 55% 73%, oklch(86% 0.01 260 / 0.25), transparent),
+      radial-gradient(1px 1px at 59% 36%, oklch(93% 0.008 260 / 0.5), transparent),
+      radial-gradient(1.4px 1.4px at 63% 87%, oklch(95% 0.01 260 / 0.65), transparent),
+      radial-gradient(1px 1px at 67% 59%, oklch(87% 0.01 260 / 0.3), transparent),
+      radial-gradient(1.2px 1.2px at 71% 91%, oklch(92% 0.008 260 / 0.55), transparent),
+      radial-gradient(1px 1px at 75% 34%, oklch(89% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.3px 1.3px at 79% 62%, oklch(94% 0.008 260 / 0.6), transparent),
+      radial-gradient(1px 1px at 83% 18%, oklch(85% 0.01 260 / 0.2), transparent),
+      radial-gradient(1.1px 1.1px at 87% 49%, oklch(91% 0.01 260 / 0.45), transparent),
+      radial-gradient(1px 1px at 91% 8%, oklch(96% 0.008 260 / 0.7), transparent),
+      radial-gradient(1.5px 1.5px at 95% 64%, oklch(97% 0.006 260 / 0.75), transparent),
+      radial-gradient(1px 1px at 99% 38%, oklch(88% 0.01 260 / 0.35), transparent),
+      radial-gradient(1.2px 1.2px at 1% 55%, oklch(90% 0.01 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 9% 91%, oklch(86% 0.01 260 / 0.25), transparent),
+      radial-gradient(1.4px 1.4px at 17% 3%, oklch(95% 0.008 260 / 0.7), transparent),
+      radial-gradient(1px 1px at 21% 74%, oklch(92% 0.008 260 / 0.55), transparent),
+      radial-gradient(1.1px 1.1px at 29% 56%, oklch(87% 0.01 260 / 0.3), transparent),
+      radial-gradient(1px 1px at 33% 21%, oklch(94% 0.008 260 / 0.6), transparent),
+      radial-gradient(1.3px 1.3px at 41% 89%, oklch(89% 0.01 260 / 0.45), transparent),
+      radial-gradient(1px 1px at 49% 46%, oklch(91% 0.01 260 / 0.5), transparent),
+      radial-gradient(1.2px 1.2px at 53% 17%, oklch(85% 0.01 260 / 0.2), transparent),
+      radial-gradient(1px 1px at 61% 77%, oklch(96% 0.008 260 / 0.65), transparent),
+      radial-gradient(1.5px 1.5px at 69% 12%, oklch(98% 0.005 260 / 0.75), transparent),
+      radial-gradient(1px 1px at 73% 98%, oklch(88% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.1px 1.1px at 81% 52%, oklch(93% 0.008 260 / 0.55), transparent),
+      radial-gradient(1px 1px at 89% 84%, oklch(90% 0.01 260 / 0.45), transparent),
+      radial-gradient(1.4px 1.4px at 93% 26%, oklch(95% 0.01 260 / 0.7), transparent),
+      radial-gradient(1px 1px at 97% 93%, oklch(86% 0.01 260 / 0.25), transparent),
+      radial-gradient(1.2px 1.2px at 13% 86%, oklch(92% 0.008 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 25% 70%, oklch(87% 0.01 260 / 0.35), transparent),
+      radial-gradient(1.3px 1.3px at 37% 4%, oklch(94% 0.008 260 / 0.65), transparent),
+      radial-gradient(1px 1px at 45% 24%, oklch(89% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.1px 1.1px at 57% 97%, oklch(91% 0.01 260 / 0.5), transparent),
+      radial-gradient(1px 1px at 65% 40%, oklch(85% 0.01 260 / 0.2), transparent),
+      radial-gradient(1.5px 1.5px at 77% 75%, oklch(97% 0.006 260 / 0.8), transparent),
+      radial-gradient(1px 1px at 85% 11%, oklch(90% 0.01 260 / 0.45), transparent),
+      radial-gradient(1.2px 1.2px at 91% 57%, oklch(93% 0.008 260 / 0.6), transparent),
+      radial-gradient(1px 1px at 98% 69%, oklch(88% 0.01 260 / 0.35), transparent);
+    background-size: 100% 100%;
+    animation: splash-stars-twinkle 7.5s ease-in-out infinite;
+  }
+  .splash-screen::after {
+    @apply pointer-events-none absolute inset-0 content-[''];
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, oklch(6% 0.02 260) 100%);
+  }
+  .splash-field { @apply pointer-events-none absolute inset-0 overflow-hidden; }
+  .splash-field {
+    background-image:
+      radial-gradient(1px 1px at 6% 18%, oklch(96% 0.006 260 / 0.62), transparent),
+      radial-gradient(1.3px 1.3px at 12% 74%, oklch(99% 0.004 260 / 0.82), transparent),
+      radial-gradient(1px 1px at 18% 31%, oklch(88% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 26% 8%, oklch(95% 0.008 260 / 0.66), transparent),
+      radial-gradient(1px 1px at 34% 82%, oklch(91% 0.01 260 / 0.46), transparent),
+      radial-gradient(1.4px 1.4px at 43% 16%, oklch(98% 0.005 260 / 0.78), transparent),
+      radial-gradient(1px 1px at 48% 68%, oklch(86% 0.01 260 / 0.34), transparent),
+      radial-gradient(1.2px 1.2px at 57% 28%, oklch(94% 0.008 260 / 0.58), transparent),
+      radial-gradient(1px 1px at 66% 91%, oklch(90% 0.01 260 / 0.48), transparent),
+      radial-gradient(1.6px 1.6px at 74% 44%, oklch(99% 0.004 260 / 0.82), transparent),
+      radial-gradient(1px 1px at 83% 22%, oklch(88% 0.01 260 / 0.4), transparent),
+      radial-gradient(1.3px 1.3px at 92% 76%, oklch(95% 0.008 260 / 0.64), transparent);
+    background-size: 100% 100%;
+    animation: splash-star-layer-c 14s ease-in-out infinite;
+  }
+  .splash-field::before,
+  .splash-field::after {
+    @apply absolute inset-[-12%] content-[''];
+    background-repeat: repeat;
+    will-change: opacity, transform;
+  }
+  .splash-field::before {
+    opacity: 0.82;
+    background-image:
+      radial-gradient(1px 1px at 18px 24px, oklch(98% 0.006 260 / 0.78), transparent),
+      radial-gradient(1px 1px at 82px 56px, oklch(88% 0.01 260 / 0.36), transparent),
+      radial-gradient(1.4px 1.4px at 136px 92px, oklch(95% 0.008 260 / 0.58), transparent),
+      radial-gradient(1px 1px at 210px 30px, oklch(90% 0.01 260 / 0.42), transparent),
+      radial-gradient(1.2px 1.2px at 42px 116px, oklch(94% 0.008 260 / 0.58), transparent),
+      radial-gradient(1px 1px at 174px 128px, oklch(91% 0.01 260 / 0.46), transparent);
+    background-size: 196px 118px;
+    animation: splash-star-layer-a 18s ease-in-out infinite;
+  }
+  .splash-field::after {
+    opacity: 0.58;
+    background-image:
+      radial-gradient(1px 1px at 38px 78px, oklch(92% 0.008 260 / 0.46), transparent),
+      radial-gradient(1.5px 1.5px at 116px 22px, oklch(99% 0.005 260 / 0.74), transparent),
+      radial-gradient(1px 1px at 188px 124px, oklch(86% 0.01 260 / 0.32), transparent),
+      radial-gradient(1.2px 1.2px at 270px 64px, oklch(94% 0.008 260 / 0.54), transparent),
+      radial-gradient(1px 1px at 226px 156px, oklch(90% 0.01 260 / 0.44), transparent),
+      radial-gradient(1.4px 1.4px at 304px 18px, oklch(97% 0.006 260 / 0.66), transparent);
+    background-size: 254px 148px;
+    animation: splash-star-layer-b 23s ease-in-out infinite;
+  }
+  .splash-field span {
+    @apply absolute block h-[2px] w-[42rem] origin-left;
+    left: calc(50% - 5rem);
+    top: 50%;
+    background:
+      linear-gradient(90deg, oklch(98% 0.012 260 / 0.46) 0%, oklch(78% 0.18 260 / 0.34) 28%, oklch(62% 0.14 260 / 0.1) 62%, transparent 82%),
+      linear-gradient(90deg, transparent 0%, oklch(100% 0.004 260 / 0.68) 10%, transparent 22%);
+    box-shadow: 0 0 12px 1px oklch(62% 0.18 260 / 0.14), 0 0 2px 0 oklch(100% 0.004 260 / 0.36);
+  }
+  .splash-field span:nth-child(1) { transform: rotate(-28deg); animation: starfield-drift 120s linear infinite; }
+  .splash-field span:nth-child(2) { transform: rotate(0deg); animation: starfield-drift 150s linear infinite reverse; }
+  .splash-field span:nth-child(3) { transform: rotate(28deg); animation: starfield-drift 135s linear infinite; }
+  @keyframes starfield-drift {
+    from { opacity: 0.5; }
+    50% { opacity: 1; }
+    to { opacity: 0.5; }
+  }
+  @keyframes splash-stars-twinkle {
+    0%, 100% { opacity: 0.84; filter: brightness(0.95); }
+    35% { opacity: 1; filter: brightness(1.12); }
+    68% { opacity: 0.76; filter: brightness(0.9); }
+  }
+  @keyframes splash-star-layer-a {
+    0%, 100% { opacity: 0.58; transform: translate3d(0, 0, 0); }
+    45% { opacity: 0.86; transform: translate3d(8px, -5px, 0); }
+    70% { opacity: 0.66; transform: translate3d(4px, 3px, 0); }
+  }
+  @keyframes splash-star-layer-b {
+    0%, 100% { opacity: 0.38; transform: translate3d(0, 0, 0); }
+    40% { opacity: 0.68; transform: translate3d(-7px, 5px, 0); }
+    78% { opacity: 0.48; transform: translate3d(-2px, -4px, 0); }
+  }
+  @keyframes splash-star-layer-c {
+    0%, 100% { opacity: 0.46; filter: brightness(0.96); }
+    48% { opacity: 0.76; filter: brightness(1.16); }
+    72% { opacity: 0.56; filter: brightness(1.02); }
+  }
+  .splash-content { @apply relative z-10 grid w-full max-w-[48rem] place-items-center; opacity: 0; transform: translateY(8px) scale(0.98); transition: opacity 500ms cubic-bezier(0.22,1,0.36,1), transform 500ms cubic-bezier(0.22,1,0.36,1); }
+  .splash-content--visible { @apply opacity-100; transform: translateY(0) scale(1); }
+  .splash-brand-panel { @apply relative grid min-h-[24rem] w-full items-end justify-start overflow-hidden rounded-[1.35rem] border border-[oklch(45%_0.2_263/0.35)] bg-[oklch(44%_0.23_263)] p-5 shadow-[0_28px_90px_oklch(32%_0.08_255/0.18),inset_0_1px_0_oklch(100%_0.004_254/0.34)]; }
+  .splash-brand-panel::before { @apply pointer-events-none absolute inset-0 content-['']; background-image: linear-gradient(90deg, oklch(100% 0.005 254 / 0.045) 1px, transparent 1px), linear-gradient(180deg, oklch(100% 0.005 254 / 0.035) 1px, transparent 1px); background-size: 38px 38px; mask-image: radial-gradient(circle at 70% 50%, black, transparent 72%); }
+  .splash-brand-panel::after { @apply pointer-events-none absolute inset-0 z-10 content-['']; background: linear-gradient(90deg, oklch(28% 0.2 263 / 0.22), transparent 46%, oklch(18% 0.16 263 / 0.16)); }
+  .splash-orb { @apply absolute bottom-[-18%] right-[-8%] z-[2] grid w-[min(34rem,62%)] place-items-center opacity-80; }
+  .splash-orb video { @apply block w-full; filter: saturate(1.02) contrast(1.03) drop-shadow(0 24px 54px oklch(18% 0.08 263 / 0.28)); mix-blend-mode: screen; }
+  .splash-boot-card { @apply relative z-20 grid w-[min(34rem,calc(100vw-4rem))] justify-items-start gap-1.5 rounded-xl border border-[oklch(95%_0.01_254/0.34)] bg-[oklch(99%_0.006_254/0.97)] p-4 text-left shadow-[0_22px_70px_oklch(18%_0.08_263/0.28),inset_0_1px_0_oklch(100%_0.004_254/0.88)]; }
+  .splash-title { @apply max-w-none text-[2.15rem] font-semibold leading-[1.02] text-ink; letter-spacing: 0; }
+  .splash-subtitle { @apply text-sm font-medium text-[oklch(47%_0.04_255)]; letter-spacing: 0; }
+  .splash-status { @apply mt-3 flex w-full flex-wrap items-center gap-2 border-t border-line pt-3; }
+  .splash-status span { @apply inline-flex h-7 items-center gap-1.5 rounded-full border border-line bg-panel px-2.5 text-[11px] font-semibold text-muted; }
+  .splash-status i { @apply block size-1.5 rounded-full bg-accent; animation: splash-bounce 1.2s ease-in-out infinite; }
+  .splash-status span:nth-child(2) i { animation-delay: 0.15s; }
+  .splash-status span:nth-child(3) i { animation-delay: 0.3s; }
+  .splash-loader { @apply mt-3 h-1 w-full overflow-hidden rounded-full bg-[oklch(90%_0.018_255)]; }
+  .splash-loader span { @apply block h-full w-1/2 rounded-full bg-accent; animation: splash-progress 1.45s cubic-bezier(0.22,1,0.36,1) infinite; }
+  .splash-actions { @apply mt-3 flex w-full flex-wrap items-center justify-between gap-3 border-t border-line pt-3; }
+  .splash-actions--recovery { @apply justify-start; }
+  .splash-ready-button { @apply h-11 px-4 shadow-[0_10px_24px_oklch(40%_0.15_257/0.16)]; }
+  .splash-retry-button { @apply h-11 px-4; }
+  .splash-links { @apply flex flex-wrap items-center gap-1.5; }
+  .splash-links a { @apply inline-flex min-h-8 items-center gap-1.5 rounded-full border border-transparent bg-transparent px-2 py-1 text-[11px] font-semibold text-muted transition duration-200 hover:border-accent/25 hover:bg-accent/5 hover:text-accent-rich focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20; transition-timing-function: cubic-bezier(0.22,1,0.36,1); }
+  .splash-links a:hover { transform: translate3d(0, -1px, 0); }
+  .splash-links svg { @apply size-3.5; }
+  .shell { @apply min-h-screen; }
+  .main { @apply min-h-screen p-4; }
+  .main--split { @apply p-0; }
+  .app-alert { @apply fixed left-4 right-4 top-4 z-50 mx-auto max-w-3xl shadow-sm; }
+  .auth-page { @apply grid min-h-screen place-items-center bg-canvas p-4; }
+  .auth-card { @apply w-full max-w-md rounded-lg bg-card shadow-none; }
+  .auth-card .ui-card-header { @apply items-center bg-[oklch(98.2%_0.004_255)]; }
+  .auth-card .ui-card-header > svg { @apply size-5 text-muted; }
+  .auth-form { @apply grid gap-4; }
+  .auth-form .ui-button { @apply w-full; }
+  .split-layout { @apply flex h-[100dvh] overflow-hidden; }
+  .split-primary { @apply flex min-w-0 flex-1 flex-col overflow-hidden; }
+  .map-workspace { @apply grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] overflow-hidden; }
+  .map-workspace-empty { @apply h-full; }
+  .detail-header, .section-title { @apply flex items-center justify-between gap-3 border-b border-line px-3 py-3; }
+  .section-title > div { @apply grid gap-1; }
+  .detail-title-block span, .chat-home-title span, .section-title span { @apply text-xs; }
+  .fleet-block-page { @apply relative flex min-h-0 flex-1 flex-col overflow-auto bg-[oklch(92.5%_0.006_255)] p-3 text-ink lg:p-5; }
+  .fleet-block-page::before { @apply hidden; }
+  .fleet-block-page > * { @apply relative z-10; }
+  .fleet-command-shell { @apply shrink-0; }
+  .fleet-dashboard-window { @apply mx-auto grid min-h-0 w-full max-w-[92rem] flex-1 grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-xl border border-line/80 bg-card shadow-[0_24px_72px_oklch(35%_0.02_255/0.14)]; backdrop-filter: none; }
+  .fleet-topbar { @apply flex min-h-12 items-center justify-between gap-3 border-b border-line/70 bg-[oklch(97.5%_0.004_255/0.84)] px-3 py-2; }
+  .fleet-tabs { @apply flex min-w-0 items-center gap-1; }
+  .fleet-tab { @apply inline-flex h-8 shrink-0 items-center rounded-md border border-transparent px-3 text-sm font-medium text-muted transition hover:bg-[oklch(94%_0.006_255)] hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/12; }
+  .fleet-tab.active { @apply rounded-none border-x-0 border-t-0 border-b-2 border-b-ink bg-transparent text-ink; }
+  .fleet-block-header { @apply relative grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-end gap-3 border-b border-line/70 bg-[oklch(98.8%_0.004_255)] px-4 py-3 text-ink shadow-none; }
+  .fleet-block-header::before { @apply hidden; }
+  .fleet-title-block { @apply grid min-w-0 gap-1; }
+  .fleet-block-header h2 { @apply m-0 text-2xl font-semibold leading-tight text-ink; }
+  .fleet-block-header p { @apply m-0 max-w-xl text-sm leading-5 text-muted; }
+  .fleet-title-block span { @apply text-sm font-medium text-muted; }
+  .fleet-header-meta { @apply flex flex-wrap items-center gap-2; }
+  .fleet-header-meta span { @apply inline-flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md border border-line/80 bg-card/70 px-2.5 text-xs font-medium text-muted; }
+  .fleet-header-meta svg { @apply size-3.5 text-muted; }
+  .fleet-block-header > * { @apply relative z-10; }
+  .fleet-command-panel { @apply flex min-w-0 flex-wrap items-center justify-end gap-2; }
+  .fleet-stats-strip { @apply grid shrink-0 grid-cols-4 border-b border-line/70 bg-[oklch(98.6%_0.004_255)] px-3 py-2.5; }
+  .fleet-stat-metric { @apply grid min-h-16 min-w-0 grid-cols-[minmax(0,1fr)_7.5rem] items-center gap-3 border-r border-line/70 px-3 text-ink; }
+  .fleet-stat-metric:last-child { @apply border-r-0; }
+  .fleet-stat-copy { @apply grid min-w-0 gap-0.5; }
+  .fleet-stat-meta { @apply flex items-center gap-2; }
+  .fleet-stat-metric span { @apply truncate text-[11px] font-semibold uppercase tracking-normal text-muted; }
+  .fleet-stat-metric strong { @apply truncate text-xl font-semibold leading-none tracking-normal text-ink; font-variant-numeric: tabular-nums; }
+  .fleet-stat-metric small { @apply truncate text-xs font-medium text-muted; }
+  .fleet-stat-delta { @apply inline-flex items-center gap-0.5 text-[11px] font-semibold tabular-nums; }
+  .fleet-stat-delta.up { @apply text-emerald-700; }
+  .fleet-stat-delta.down { @apply text-rose-700; }
+  .fleet-stat-delta.flat { @apply text-muted; }
+  .fleet-stat-metric svg { @apply h-7 w-full shrink-0 text-ink/75; }
+  .fleet-sparkline-baseline { stroke: oklch(70% 0.01 255 / 0.25); stroke-width: 1; stroke-dasharray: 2 3; }
+  .fleet-stat-metric polyline { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+  .fleet-stat-metric.attention { @apply text-amber-900; }
+  .fleet-stat-metric.attention svg { @apply text-amber-800; }
+  .fleet-stat-metric.active svg { @apply text-accent-rich; }
+  .fleet-guidance-strip { @apply mx-5 my-3 flex shrink-0 flex-wrap items-center justify-between gap-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900; }
+  .fleet-guidance-strip.active { @apply border-accent/20 bg-accent/5 text-accent; }
+  .fleet-guidance-copy { @apply grid min-w-0 gap-1.5; }
+  .fleet-guidance-title { @apply text-sm font-semibold; }
+  .fleet-guidance-agents { @apply flex flex-wrap gap-1.5; }
+  .fleet-guidance-chip { @apply inline-flex h-7 items-center gap-1.5 rounded-md border border-amber-300/70 bg-amber-100/60 px-2 text-xs font-medium text-amber-900 transition hover:bg-amber-100; }
+  .fleet-guidance-chip.good { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .fleet-guidance-chip.warn { @apply border-amber-300 bg-amber-100/60 text-amber-900; }
+  .fleet-guidance-chip.muted, .fleet-guidance-chip.info { @apply border-line/70 bg-card/70 text-muted; }
+  .fleet-guidance-strip.active .fleet-guidance-chip.info { @apply border-accent/20 bg-card text-accent; }
+  .fleet-guidance-spinner { @apply size-3.5 shrink-0; animation: spin 1s linear infinite; }
+  .fleet-guidance-strip .ui-button { @apply shrink-0; }
+  .fleet-status-dot { @apply block size-2 shrink-0 rounded-full bg-muted; }
+  .fleet-status-dot.good { @apply bg-emerald-500; }
+  .fleet-status-dot.warn { @apply bg-amber-500; }
+  .fleet-status-dot.info { @apply bg-accent; }
+  .fleet-status-dot.muted { @apply bg-[oklch(70%_0.012_255)]; }
+  .fleet-status-badge { @apply inline-flex items-center gap-1.5; }
+  .fleet-bulk-bar { @apply sticky top-0 z-30 flex items-center gap-3 border-b border-line/70 bg-[oklch(97.5%_0.005_255/0.94)] px-4 py-2 backdrop-blur-md; }
+  .fleet-bulk-count { @apply text-xs font-semibold text-ink; }
+  .fleet-bulk-actions { @apply flex flex-1 flex-wrap gap-1.5; }
+  .fleet-bulk-actions .ui-button { @apply h-8 gap-1.5 px-2.5 text-xs; }
+  .fleet-dashboard-shell { @apply grid min-h-0 flex-1; }
+  .fleet-dashboard-shell.compact { @apply min-h-[260px] flex-none; }
+  .ui-card.fleet-dashboard-card { @apply relative grid min-h-0 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-none border-0 bg-transparent shadow-none; }
+  .ui-card.fleet-dashboard-card.compact { @apply min-h-[260px] flex-none; }
+  .fleet-dashboard-actions { @apply flex shrink-0 flex-wrap items-center justify-end gap-2; }
+  .fleet-dashboard-actions .ui-button.active { @apply border-accent/40 bg-accent/8 text-accent; }
+  .fleet-dashboard-actions .ui-button { @apply h-8 rounded-md; }
+  .fleet-primary-action { @apply bg-ink px-3 text-card shadow-[0_8px_20px_oklch(25%_0.01_255/0.16)] hover:bg-ink/90; }
+  .fleet-dashboard-content { @apply h-full min-h-0 overflow-auto p-0; scrollbar-gutter: stable; }
+  .fleet-page-stack { @apply grid min-h-0 content-start gap-3; }
+  .fleet-page-stack.fleet-inventory-stack { @apply gap-0; }
+  .fleet-table-toolbar { @apply sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-line/70 bg-[oklch(98.5%_0.004_255/0.94)] px-4 py-2; backdrop-filter: blur(12px); }
+  .fleet-table-toolbar > span { @apply shrink-0 text-xs font-medium text-muted; }
+  .fleet-search-field { @apply relative flex min-w-0 flex-1 items-center; }
+  .fleet-search-field svg { @apply pointer-events-none absolute left-3 size-4 text-muted; }
+  .fleet-search-field .ui-input { @apply h-8 rounded-md border-transparent bg-transparent pl-8 text-sm shadow-none focus-visible:bg-card; }
+  .fleet-agent-table { @apply min-w-[920px]; }
+  .fleet-agent-table .ui-table-header { @apply sticky top-0 z-10 bg-[oklch(97.6%_0.004_255)] shadow-[0_1px_0_oklch(87%_0.012_255/0.85)]; }
+  .fleet-agent-table .ui-table-head { @apply h-10 px-4 text-[11px] font-semibold uppercase tracking-normal text-muted; }
+  .fleet-agent-table .ui-table-head .fleet-sort-button { @apply inline-flex items-center gap-1 rounded text-muted transition hover:text-ink; }
+  .fleet-agent-table .ui-table-head.sorted .fleet-sort-button { @apply text-ink; }
+  .fleet-checkbox-cell { @apply w-10 pr-0; }
+  .fleet-checkbox-cell .ui-checkbox { @apply size-4 cursor-pointer; }
+  .fleet-agent-table .ui-table-row { @apply transition duration-150; transition-timing-function: cubic-bezier(0.22,1,0.36,1); }
+  .fleet-agent-table .ui-table-body .ui-table-row { @apply cursor-pointer; }
+  .fleet-agent-table .ui-table-body .ui-table-row:nth-child(even) { @apply bg-[oklch(96.8%_0.004_255/0.45)]; }
+  .fleet-agent-table .ui-table-body .ui-table-row:hover { @apply bg-[oklch(94.8%_0.006_255)]; }
+  .fleet-agent-table .ui-table-row.selected { @apply bg-[oklch(94.5%_0.006_255)] shadow-[inset_3px_0_0_oklch(25%_0.01_255)]; }
+  .fleet-agent-table .ui-table-row.checked { @apply bg-[oklch(94.8%_0.012_255/0.6)]; }
+  .fleet-agent-table .ui-table-cell { @apply px-4 py-1.5 align-middle; }
+  .fleet-expand-cell { @apply w-12 pr-0; }
+  .fleet-expand-cell .ui-button, .fleet-manage-cell .ui-button-icon { @apply size-7 rounded-md; }
+  .fleet-agent-name-button { @apply grid min-w-0 gap-0.5 rounded-md text-left outline-none transition duration-150; transition-timing-function: cubic-bezier(0.22,1,0.36,1); }
+  .fleet-agent-name-button:hover span { @apply text-ink; }
+  .fleet-agent-name-button:focus-visible { @apply ring-2 ring-accent/25 ring-offset-2 ring-offset-card; }
+  .fleet-agent-name-button span { @apply flex min-w-0 items-center gap-1.5 truncate text-sm font-medium text-ink; }
+  .fleet-agent-name-button small { @apply truncate text-xs text-muted; }
+  .fleet-agent-initials { @apply grid size-5 shrink-0 place-items-center rounded bg-[oklch(88%_0.008_255)] text-[9px] font-semibold not-italic text-muted; }
+  .fleet-host-cell, .fleet-service-meter, .fleet-metric-cell { @apply inline-flex h-6 max-w-36 items-center gap-1.5 rounded-md border border-line/70 bg-card/60 px-2 text-xs font-medium text-muted; }
+  .fleet-host-cell svg, .fleet-service-meter svg, .fleet-metric-cell svg { @apply size-3.5 text-muted; }
+  .fleet-host-cell span, .fleet-service-meter span, .fleet-metric-cell span { @apply truncate; }
+  .fleet-host-cell.offline { @apply border-amber-200 bg-amber-50 text-amber-900; }
+  .fleet-host-cell.offline svg { @apply text-amber-700; }
+  .fleet-provider-cell { @apply min-w-[11rem]; }
+  .fleet-provider-copy { @apply flex min-w-0 items-baseline gap-1.5; }
+  .fleet-provider-copy strong { @apply truncate text-sm font-medium text-ink; }
+  .fleet-provider-copy small { @apply truncate text-xs text-muted; }
+  .fleet-service-meter strong { @apply text-xs text-ink; }
+  .fleet-metric-cell.good { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .fleet-metric-cell.muted { @apply text-muted; }
+  .fleet-job-pill { @apply inline-flex h-6 items-center gap-1.5 rounded-md border border-accent/20 bg-accent/8 px-2 text-xs font-medium text-accent-rich; }
+  .fleet-job-pill svg { @apply size-3.5; }
+  .fleet-muted-copy { @apply text-xs font-medium text-muted; }
+  .fleet-manage-cell { @apply w-24 whitespace-nowrap text-right; }
+  .fleet-manage-cell .ui-button { @apply size-7 rounded-md; }
+  .agent-action-menu { @apply min-w-48; }
+  .agent-action-menu [data-slot='dropdown-menu-item'],
+  .agent-action-menu [data-slot='context-menu-item'] { @apply text-xs; }
+  .fleet-detail-row .ui-table-cell { @apply bg-[oklch(98.8%_0.004_255)] px-4 py-3; }
+  .fleet-detail-row:hover { @apply bg-transparent; }
+  .fleet-expanded-panel { @apply grid gap-3; }
+  .fleet-detail-group { @apply grid gap-1.5; }
+  .fleet-detail-group-label { @apply text-[10px] font-semibold uppercase tracking-[0.12em] text-muted; }
+  .fleet-detail-tiles { @apply grid grid-cols-3 gap-2; }
+  .fleet-detail-tile { @apply grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-0.5 rounded-lg border border-line bg-card px-3 py-2 shadow-[inset_0_1px_0_oklch(100%_0.006_255/0.75)]; }
+  .fleet-detail-tile svg { @apply row-span-2 mt-0.5 size-4 text-muted; }
+  .fleet-detail-tile span { @apply min-w-0 truncate text-[10px] font-semibold uppercase tracking-[0.12em] text-muted; }
+  .fleet-detail-tile strong { @apply min-w-0 truncate text-xs font-medium text-ink; }
+  .fleet-detail-tile a { @apply inline-flex min-w-0 items-center gap-1 text-accent hover:underline; }
+  .fleet-detail-tile a strong { @apply text-accent; }
+  .fleet-detail-tile a svg { @apply row-auto mt-0 size-3 shrink-0 text-accent; }
+  .fleet-detail-tile.warn { @apply border-amber-200 bg-amber-50; }
+  .fleet-detail-tile.warn svg, .fleet-detail-tile.warn strong { @apply text-amber-900; }
+  .fleet-table-empty { @apply px-4 py-10 text-center text-sm text-muted; }
+  .fleet-empty-panel { @apply grid min-h-0 overflow-hidden border-dashed shadow-none; }
+  .fleet-empty-state { @apply grid h-full min-h-72 w-full place-items-center bg-card p-8; }
+  .fleet-empty-state-content { @apply grid max-w-md place-items-center gap-4 bg-transparent px-6 py-7 text-center shadow-none; }
+  .fleet-empty-state-icon { @apply grid size-12 place-items-center rounded-md bg-panel text-muted shadow-none; }
+  .fleet-empty-state-title { @apply m-0 text-base font-semibold text-ink; }
+  .fleet-empty-state-desc { @apply m-0 max-w-sm text-sm leading-6 text-muted; }
+  .fleet-empty-state-actions { @apply flex flex-wrap items-center justify-center gap-2; }
+  .detail-actions, .session-actions, .gateway-actions, .terminal-actions, .action-strip { @apply flex flex-wrap items-center gap-2; }
+  .disabled-link { @apply pointer-events-none opacity-45; }
+  .status-badge { @apply inline-flex h-9 items-center gap-2 rounded-lg border px-3 text-sm font-semibold; }
+  .status-badge svg { @apply size-4; }
+  .status-badge.good { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .status-badge.warn { @apply border-amber-200 bg-amber-50 text-amber-800; }
+  .status-badge.muted { @apply border-line bg-muted/5 text-muted; }
+  .warn { @apply border-amber-200 bg-amber-50 text-amber-900; }
+  .small-modal { @apply max-w-md; }
+  .create-agent-modal { @apply grid max-w-md grid-rows-[auto_minmax(0,1fr)] bg-card; }
+  .settings-modal { @apply grid h-[min(840px,calc(100vh-32px))] max-w-5xl grid-rows-[auto_minmax(0,1fr)] bg-card; }
+  .agent-detail-modal { @apply grid h-[min(905px,calc(100vh-48px))] min-w-0 max-w-6xl grid-rows-[auto_minmax(0,1fr)] bg-card; }
+  .detail-header { @apply bg-card; }
+  .detail-title-block h2 { @apply text-xl; }
+  .tab-content { @apply min-h-0 min-w-0 overflow-auto p-4; animation: panel-enter 180ms ease-out both; }
+}

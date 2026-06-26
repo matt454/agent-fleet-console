@@ -1,0 +1,90 @@
+@layer components {
+  .agent-detail-modal { @apply grid h-[min(905px,calc(100vh-48px))] min-w-0 max-w-6xl grid-rows-[auto_minmax(0,1fr)] rounded-xl border-line/80 bg-canvas p-0 shadow-[0_24px_72px_oklch(35%_0.02_255/0.16)]; }
+  .ui-dialog-header.detail-header { @apply flex items-center justify-between gap-4 rounded-none border-x-0 border-b border-t-0 border-line/70 bg-[oklch(98.4%_0.004_255)] px-5 py-4 text-ink shadow-none; }
+  .detail-identity { @apply flex min-w-0 items-center gap-3; }
+  .detail-agent-mark { @apply grid size-9 shrink-0 place-items-center rounded-md border border-line/80 bg-panel text-muted shadow-none; }
+  .detail-agent-mark svg { @apply size-5; }
+  .detail-title-block { @apply grid min-w-0 gap-1; }
+  .detail-title-block .ui-dialog-title { @apply truncate text-lg leading-tight text-ink; }
+  .detail-title-block > span:last-child { @apply truncate text-xs text-muted; }
+  .detail-eyebrow { @apply w-fit rounded-md border border-line/80 bg-card px-2 py-0.5 text-[10px] font-semibold uppercase tracking-normal text-muted; }
+  .detail-command-strip { @apply flex min-w-0 flex-wrap items-center justify-end gap-2; }
+  .detail-status-pill, .detail-meta-chip { @apply inline-flex h-8 max-w-48 items-center gap-2 rounded-md border px-2.5 text-xs font-medium shadow-none; }
+  .detail-status-pill svg, .detail-meta-chip svg { @apply size-3.5 shrink-0; }
+  .detail-status-pill { @apply border-line bg-panel text-muted; }
+  .detail-status-pill.good { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .detail-status-pill.warn { @apply border-amber-200 bg-amber-50 text-amber-800; }
+  .detail-meta-chip { @apply border-line/80 bg-card text-muted; }
+  .detail-close-button { @apply transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .advanced-panel { @apply grid min-h-0 min-w-0 grid-rows-[auto_minmax(0,1fr)] gap-0 overflow-hidden pt-0; }
+  .agent-detail-nav-shell { @apply min-w-0 border-b border-line/70 bg-[oklch(97.6%_0.004_255)] p-0 shadow-none; }
+  .advanced-panel .agent-detail-content { @apply h-full min-h-0 min-w-0 overflow-x-hidden overflow-y-auto; scrollbar-gutter: stable; }
+  .agent-detail-workspace { @apply min-h-0 min-w-0 bg-card p-0 shadow-none; }
+  .agent-detail-workspace-core { @apply h-full min-h-0 min-w-0 overflow-hidden bg-card shadow-none; animation: panel-enter 180ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .advanced-panel .agent-detail-content > .tab-content { @apply h-auto min-h-full overflow-visible; }
+  .ui-tabs-list.agent-detail-tabs { @apply flex min-w-0 gap-1 overflow-x-auto border-0 bg-transparent p-0; }
+  .agent-detail-tabs .ui-tabs-trigger { @apply h-10 shrink-0 rounded-none border border-transparent bg-transparent px-3 py-0 text-xs font-medium text-muted shadow-none transition duration-150 active:scale-[0.99]; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .agent-detail-tabs .ui-tabs-trigger:hover { @apply bg-[oklch(94.5%_0.006_255)] text-ink; }
+  .agent-detail-tabs .ui-tabs-trigger.active { @apply border-x-line/80 border-b-transparent border-t-transparent bg-card text-ink shadow-none; }
+  .agent-detail-tabs .ui-tabs-trigger.active span { @apply text-ink; }
+  .agent-detail-tabs .ui-tabs-trigger.active:hover { @apply bg-card; }
+  .agent-detail-tab-icon { @apply grid size-6 place-items-center rounded-md border border-line/80 bg-card text-muted transition duration-150; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .agent-detail-tab-icon svg { @apply size-3.5; }
+  .agent-detail-tabs .ui-tabs-trigger.active .agent-detail-tab-icon { @apply border-line/80 bg-panel text-ink; transform: none; }
+  .details-panel, .lifecycle-panel, .jobs-panel, .crons-panel { @apply grid min-w-0 content-start gap-2.5; }
+  .lifecycle-panel { @apply flex flex-col; }
+  .details-summary-grid { @apply grid grid-flow-dense gap-2.5 md:grid-cols-3; }
+  .agent-detail-modal .ui-card { @apply rounded-lg border-line/80 bg-card shadow-none; }
+  .agent-detail-modal .transcript-panel { @apply rounded-none border-0; }
+  .details-summary-card { @apply bg-card transition duration-150 hover:border-edge; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .details-summary-card:hover { box-shadow: 0 1px 2px oklch(35% 0.02 255 / 0.04); }
+  .details-summary-card .ui-card-header { @apply justify-start gap-2 border-b-0 px-3 pb-1 pt-3; }
+  .details-summary-card .ui-card-header > svg { @apply grid size-7 shrink-0 place-items-center rounded-md border border-line/80 bg-panel p-1.5 text-muted shadow-none; }
+  .details-summary-card .ui-card-header > div { @apply grid gap-0.5; }
+  .details-summary-card .ui-card-title { @apply text-base tabular-nums; }
+  .details-summary-card .ui-card-description { @apply m-0; }
+  .details-summary-card .ui-card-content { @apply px-3 pb-3 pt-0; }
+  .details-summary-card .ui-card-content > span:not(.ui-badge) { @apply text-xs text-muted; }
+  .details-section-card { @apply bg-card; }
+  .details-section-card .ui-card-header { @apply bg-card px-3 py-2.5; }
+  .ui-card-content.details-row-list { @apply grid px-3 py-0.5; }
+  .details-row { @apply grid min-h-10 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-md px-1.5 py-1.5 transition duration-150 hover:bg-[oklch(95.5%_0.006_255)]; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .detail-row-label { @apply inline-flex items-center gap-2 text-xs font-semibold text-muted; }
+  .detail-row-label svg { @apply size-6 shrink-0 rounded border border-line/80 bg-panel p-1.5 text-muted shadow-none; }
+  .details-row-value { @apply truncate text-sm font-medium text-ink; }
+  .lifecycle-summary-card, .lifecycle-section-card { @apply overflow-visible bg-card; }
+  .lifecycle-summary-card .ui-card-header, .lifecycle-section-card .ui-card-header { @apply items-center bg-card px-3 py-2; }
+  .ui-card-content.lifecycle-summary-content { @apply grid px-3 py-0.5; }
+  .ui-card-content.lifecycle-action-list { @apply grid px-3 py-0.5; }
+  .lifecycle-action-row { @apply grid min-h-11 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-md px-1.5 py-1.5 transition duration-150 hover:bg-[oklch(95.5%_0.006_255)]; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .lifecycle-action-row > div { @apply flex min-w-0 items-center gap-2; }
+  .lifecycle-action-row > div > div { @apply grid min-w-0 gap-0.5; }
+  .lifecycle-action-row strong { @apply truncate text-sm font-semibold text-ink; }
+  .lifecycle-action-row span { @apply hidden text-xs text-muted; }
+  .lifecycle-action-row .ui-progress { @apply mt-1 max-w-sm; }
+  .lifecycle-action-row .ui-button { @apply h-8; }
+  .lifecycle-action-icon { @apply grid size-7 shrink-0 place-items-center rounded-md border border-line/80 bg-panel text-muted shadow-none; }
+  .lifecycle-action-icon svg { @apply size-3.5; }
+  .lifecycle-update-progress { @apply grid gap-1.5 py-2; }
+  .lifecycle-update-progress > div { @apply flex items-center justify-between gap-3; }
+  .lifecycle-update-progress span { @apply text-xs font-semibold text-muted; }
+  .lifecycle-update-progress strong { @apply text-xs font-semibold tabular-nums text-ink; }
+  .lifecycle-danger-card { @apply border-rose-200 bg-rose-50/30 shadow-sm; }
+  .lifecycle-danger-card .ui-card-header { @apply border-rose-200/60 px-3 py-2; }
+  .lifecycle-danger-card .ui-card-header svg { @apply text-rose-500; }
+  .lifecycle-danger-row { @apply flex items-center justify-between gap-3 px-3 py-2; }
+  .lifecycle-danger-row > div { @apply grid gap-1; }
+  .lifecycle-danger-row strong { @apply text-sm text-ink; }
+  .lifecycle-danger-row span { @apply text-xs text-muted; }
+  .crons-summary-card .ui-card-header, .cron-file-card .ui-card-header { @apply items-center bg-card; }
+  .crons-summary-card .ui-card-header > svg, .cron-file-card .ui-card-header > svg { @apply size-9 shrink-0 rounded-md border border-line/80 bg-panel p-2 text-muted shadow-none; }
+  .crons-summary-card .ui-card-header > div, .cron-file-card .ui-card-header > div { @apply grid min-w-0 gap-1; }
+  .crons-summary-card .ui-card-title, .cron-file-card .ui-card-title { @apply truncate text-sm; }
+  .cron-file-list { @apply grid gap-3; }
+  .cron-file-card .ui-card-content { @apply p-0; }
+  .cron-file-card pre { @apply m-0 max-h-[28rem] overflow-auto border-t border-line bg-[oklch(97.5%_0.01_258)] p-4 text-xs leading-5 text-ink; }
+  .cron-file-card code { @apply whitespace-pre-wrap break-words font-mono; }
+  .crons-loading { @apply flex min-h-48 items-center justify-center gap-2 rounded-xl border border-line bg-card text-sm text-muted; }
+  .crons-loading svg { @apply size-4; }
+  .crons-empty { @apply min-h-72 border-0 bg-transparent; }
+}

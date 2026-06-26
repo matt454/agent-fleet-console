@@ -1,0 +1,152 @@
+@layer components {
+  .chat-home-tab { @apply grid min-h-0 min-w-0 flex-1 grid-rows-[auto_minmax(0,1fr)] p-0; overflow: visible; }
+  .chat-home-toolbar { @apply flex items-center justify-between gap-3 border-b border-line/70 bg-[oklch(98.2%_0.004_255)] px-4 py-3; }
+  .chat-home-title { @apply flex min-w-0 flex-col gap-0.5; }
+  .chat-home-title h3 { @apply truncate text-sm font-semibold leading-tight; }
+  .chat-home-title span { @apply truncate text-[11px] text-muted; }
+  .chat-home-panel { @apply mx-0 mb-0 grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-b-lg; }
+  .transcript-panel { @apply grid h-full min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden rounded-none border-0 bg-card shadow-none; }
+  .chat-panel-body { @apply grid min-h-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden; }
+  .chat-panel-content { @apply h-full min-h-0 overflow-hidden bg-card p-0; background-image: none; }
+  .chat-alert { @apply m-3 mb-0 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-md border-amber-200/80 bg-amber-50 px-3.5 py-3 shadow-none; }
+  .chat-alert > svg { @apply size-5 text-amber-600; }
+  .chat-alert > div { @apply grid min-w-0 gap-0.5; }
+  .chat-alert strong { @apply text-sm font-semibold text-amber-950; }
+  .chat-alert span { @apply text-xs leading-5 text-amber-800; }
+  .chat-alert .ui-button { @apply h-8 shrink-0 border-amber-300 bg-card px-2.5 text-xs text-amber-950 hover:bg-amber-100/60; }
+  .chat-alert .ui-button svg { @apply size-3.5; }
+  .chat-scroll-area { @apply h-full min-h-0; }
+  .chat-scroll-content { @apply flex min-h-full flex-col justify-end; }
+  .chat-message-list { @apply flex min-h-full flex-col justify-end gap-3 px-5 py-5; }
+  .chat-message-row { @apply flex w-fit max-w-[78%] items-start gap-2.5; }
+  .chat-message-row.user { @apply ml-auto justify-end; }
+  .chat-message-row.system,
+  .chat-message-row.tool,
+  .chat-message-row.function,
+  .chat-message-row.error { @apply max-w-[86%]; }
+  .chat-avatar { @apply mt-5 border border-line/80 bg-panel; }
+  .chat-message-stack { @apply grid min-w-0 gap-1; }
+  .chat-message-row.user .chat-message-stack { @apply justify-items-end; }
+  .chat-message-meta { @apply px-1 text-[11px] font-medium text-muted; }
+  .chat-message-bubble { @apply rounded-lg border border-line/80 bg-card px-3 py-2 text-sm leading-6 text-ink shadow-none; overflow-wrap: anywhere; }
+  .chat-message-row.user .chat-message-bubble { @apply border-ink bg-ink text-card; }
+  .chat-message-row.tool .chat-message-bubble,
+  .chat-message-row.function .chat-message-bubble { @apply border-line/80 bg-panel text-ink; }
+  .chat-message-row.system .chat-message-bubble { @apply border-line/80 bg-panel text-muted; }
+  .chat-message-row.error .chat-message-bubble { @apply border-rose-200 bg-rose-50 text-rose-950; }
+  .chat-message-row.pending .chat-message-bubble { @apply opacity-80; }
+  .chat-message-bubble.muted { @apply bg-card text-muted; }
+  .chat-message-bubble p { @apply m-0 whitespace-pre-wrap; }
+  .chat-message-bubble p + p { @apply mt-2; }
+  .chat-message-bubble h1, .chat-message-bubble h2, .chat-message-bubble h3, .chat-message-bubble h4 { @apply mb-2 mt-3 font-semibold leading-tight text-ink; }
+  .chat-message-bubble h1:first-child, .chat-message-bubble h2:first-child, .chat-message-bubble h3:first-child, .chat-message-bubble h4:first-child { @apply mt-0; }
+  .chat-message-bubble h1 { @apply text-base; }
+  .chat-message-bubble h2, .chat-message-bubble h3, .chat-message-bubble h4 { @apply text-sm; }
+  .chat-message-bubble ul, .chat-message-bubble ol { @apply my-2 grid gap-1 pl-5; }
+  .chat-message-bubble ul { @apply list-disc; }
+  .chat-message-bubble ol { @apply list-decimal; }
+  .chat-message-bubble li { @apply leading-6; }
+  .chat-message-bubble li > p { @apply inline; }
+  .chat-message-bubble strong { @apply font-semibold text-ink; }
+  .chat-message-bubble em { @apply italic; }
+  .chat-message-bubble a { @apply font-medium text-accent underline underline-offset-2; }
+  .chat-message-bubble blockquote { @apply my-2 border-l-2 border-line pl-3 text-muted; }
+  .chat-message-bubble table { @apply my-2 w-full border-collapse overflow-hidden rounded-md text-xs; }
+  .chat-message-bubble th, .chat-message-bubble td { @apply border border-line/80 px-2 py-1.5 text-left align-top; }
+  .chat-message-bubble th { @apply bg-panel font-semibold text-ink; }
+  .chat-message-bubble pre { @apply my-2 grid min-w-0 overflow-hidden rounded-md border border-line/80 bg-panel px-3 py-2 font-mono text-xs leading-5 text-ink; }
+  .chat-message-bubble pre code { @apply block overflow-x-auto whitespace-pre bg-transparent p-0; }
+  .chat-message-bubble :not(pre) > code { @apply rounded bg-panel px-1 py-0.5 font-mono text-xs text-ink; }
+  .chat-message-row.user .chat-message-bubble h1, .chat-message-row.user .chat-message-bubble h2, .chat-message-row.user .chat-message-bubble h3, .chat-message-row.user .chat-message-bubble h4,
+  .chat-message-row.user .chat-message-bubble strong,
+  .chat-message-row.user .chat-message-bubble a,
+  .chat-message-row.user .chat-message-bubble :not(pre) > code { @apply text-card; }
+  .chat-message-row.user .chat-message-bubble blockquote { @apply border-card/35 text-card/85; }
+  .chat-message-row.user .chat-message-bubble pre,
+  .chat-message-row.user .chat-message-bubble :not(pre) > code,
+  .chat-message-row.user .chat-message-bubble th,
+  .chat-message-row.user .chat-message-bubble td { @apply border-card/25 bg-card/10; }
+  .chat-code-block { @apply my-0 grid min-w-0 overflow-hidden rounded-md border border-line/80 bg-panel font-mono text-xs leading-5 text-ink; }
+  .chat-code-block span { @apply border-b border-line/80 bg-[oklch(96.8%_0.004_255)] px-3 py-1 text-[10px] font-semibold uppercase tracking-normal text-muted; }
+  .chat-code-block code { @apply block max-w-full overflow-x-auto whitespace-pre px-3 py-2; }
+  .chat-message-bubble .json-node { @apply grid min-w-0 gap-1 rounded-md border border-line/80 bg-panel/60 p-2; }
+  .chat-message-bubble .json-node .json-node { @apply bg-card/80; }
+  .chat-message-bubble .json-children { @apply grid min-w-0 gap-1 border-l border-line/80 pl-3; }
+  .chat-message-bubble .json-summary { @apply flex w-fit items-center gap-1 rounded bg-canvas px-1.5 py-0.5 font-mono text-[11px] font-semibold uppercase leading-4 text-muted; }
+  .chat-message-bubble .json-summary span { @apply rounded bg-card px-1 text-ink; }
+  .chat-message-bubble .json-leaf { @apply grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-md bg-canvas/70 px-2 py-1.5 font-mono text-xs leading-5; }
+  .chat-message-bubble .json-key { @apply font-mono text-xs font-semibold text-ink; }
+  .chat-message-bubble .json-node > .json-key { @apply mb-0.5; }
+  .chat-message-bubble .json-value { @apply min-w-0 break-words text-ink; }
+  .chat-message-bubble .json-string { @apply text-ink; }
+  .chat-message-bubble .json-number { @apply text-blue-700; }
+  .chat-message-bubble .json-boolean { @apply text-emerald-700; }
+  .chat-message-bubble .json-null, .chat-message-bubble .json-empty { @apply font-mono text-xs italic text-muted; }
+  .chat-message-row.user .chat-message-bubble .json-node,
+  .chat-message-row.user .chat-message-bubble .json-leaf,
+  .chat-message-row.user .chat-message-bubble .json-summary { @apply border-card/25 bg-card/10 text-card; }
+  .chat-message-row.user .chat-message-bubble .json-children { @apply border-card/25; }
+  .chat-message-row.user .chat-message-bubble .json-key,
+  .chat-message-row.user .chat-message-bubble .json-value,
+  .chat-message-row.user .chat-message-bubble .json-number,
+  .chat-message-row.user .chat-message-bubble .json-boolean,
+  .chat-message-row.user .chat-message-bubble .json-string { @apply text-card; }
+  .chat-message-row.user .chat-message-bubble .json-summary span { @apply bg-card/15 text-card; }
+  .chat-message-row.user .chat-message-bubble .json-null,
+  .chat-message-row.user .chat-message-bubble .json-empty { @apply text-card/75; }
+  .ui-empty.chat-empty-state { @apply mx-auto my-auto w-full max-w-sm border-0 bg-transparent p-8; }
+  .chat-empty-state .ui-empty-media { @apply size-12 bg-panel text-muted; }
+  .chat-empty-state .ui-empty-title { @apply text-base; }
+  .chat-loading { @apply grid h-full content-start gap-3 px-4 py-6; }
+  .chat-loading .ui-skeleton { @apply h-16 w-[60%] rounded-lg; }
+  .chat-loading .ui-skeleton:nth-child(2) { @apply ml-auto h-12 w-[48%] rounded-lg; }
+  .chat-loading .ui-skeleton:nth-child(3) { @apply h-20 w-[68%] rounded-lg; }
+  .chat-composer-form { @apply shrink-0 border-t border-line/70 bg-[oklch(98.2%_0.004_255)] p-4; }
+  .chat-execution-policy { @apply mb-2 flex min-w-0 items-center justify-between gap-3; }
+  .chat-execution-policy label { @apply flex min-w-0 items-center gap-2 text-xs text-muted; }
+  .chat-execution-policy span { @apply grid min-w-0 gap-0.5; }
+  .chat-execution-policy strong { @apply text-xs font-semibold text-ink; }
+  .chat-execution-policy small { @apply truncate text-[11px] leading-4 text-muted; }
+  .execution-policy-badge { @apply shrink-0 border-amber-300 bg-amber-50 text-[10px] font-semibold text-amber-800; }
+  .chat-composer-field { @apply flex items-end gap-2 rounded-lg border border-line/80 bg-card p-2 shadow-none transition focus-within:border-accent/40 focus-within:ring-2 focus-within:ring-accent/12; }
+  .chat-composer-input { @apply max-h-36 min-h-9 flex-1 resize-none border-0 bg-transparent px-1 py-1.5 shadow-none focus:ring-0; }
+  .chat-send-button { @apply size-9 shrink-0 rounded-md; }
+  .session-menu-content { @apply z-50 grid max-h-[460px] w-[min(380px,calc(100vw-32px))] gap-1 overflow-auto rounded-lg border-line/80 bg-card p-2 shadow-[0_12px_36px_oklch(35%_0.02_255/0.12)]; }
+  .session-search { @apply mb-1 flex items-center gap-2 rounded-md border border-line/80 bg-panel px-2 py-1.5 text-muted; }
+  .session-search svg { @apply size-4 shrink-0; }
+  .session-search .session-search-input { @apply h-7 w-full border-0 bg-transparent p-0 text-xs focus:ring-0; }
+  .session-option { @apply grid min-h-9 grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-md px-2 py-2 text-xs; }
+  .session-option.new { @apply flex items-center justify-start border border-dashed border-line text-muted hover:border-accent/40 hover:text-ink; }
+  .session-option span { @apply truncate text-ink; }
+  .session-option small { @apply shrink-0 text-[10px]; }
+  .session-option.active { @apply bg-[oklch(94.5%_0.006_255)] text-ink; }
+  .session-option.active span { @apply font-semibold text-ink; }
+  .session-state { @apply px-2 py-2 text-[11px] leading-4 text-muted; }
+  .session-state.unavailable { @apply text-amber-700; }
+  .session-group { @apply grid gap-1 border-t border-line/70 py-1 first:border-t-0; }
+  .session-agent { @apply min-h-9 justify-between rounded-md bg-canvas/75 px-2 py-2 text-xs font-semibold; }
+  .session-agent span { @apply truncate text-ink; }
+  .session-agent.active { @apply bg-[oklch(94.5%_0.006_255)] text-ink; }
+  .session-agent svg { @apply text-muted; }
+  .session-menu-skeleton { @apply mb-2 h-8; }
+
+  .typing-dots { @apply flex h-6 items-center gap-1.5; }
+  .typing-dots span { @apply size-2 rounded-full bg-muted; animation: typing-dot 1.15s ease-in-out infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: 0.16s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.32s; }
+
+  .composer-footer { @apply mt-2 flex min-w-0 items-center justify-between gap-3; }
+  .composer-status { @apply flex min-w-0 items-center gap-2 text-[11px]; color: oklch(49% 0.035 255); }
+  .composer-status small { @apply shrink-0; }
+  .composer-status strong { font-weight: 500; color: oklch(24% 0.035 255 / 0.7); }
+  .chat-activity, .agent-preparing-progress { @apply flex items-center gap-3 rounded-lg border border-line/80 bg-panel p-3; }
+  .agent-preparing-panel { @apply grid content-start gap-3 p-3; }
+  .agent-preparing-card { @apply flex items-center gap-3 rounded-lg border border-line/80 bg-card p-3; }
+  .agent-preparing-orb { @apply grid size-12 place-items-center rounded-md border border-line/80 bg-panel text-muted; }
+  .offline-panel { @apply grid content-start gap-3; }
+  .offline-card { @apply flex items-center gap-3 rounded-lg border border-line/80 bg-card p-3; }
+  .offline-card h3 { @apply text-lg; }
+  .offline-card p { @apply m-0 mt-1 max-w-2xl text-sm leading-6 text-muted; }
+  .offline-face { @apply grid size-12 shrink-0 place-items-center rounded-md border border-line bg-panel text-lg font-black text-ink shadow-none; }
+  .offline-actions { @apply rounded-lg border border-line/80 bg-panel p-3; }
+}

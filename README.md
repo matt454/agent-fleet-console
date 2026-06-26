@@ -4,6 +4,8 @@
 
 Fleet is a local-first web console for creating, configuring, monitoring, and operating Dockerized Hermes agents across one or more trusted machines.
 
+It is primarily built for Hermes Agent and the NVIDIA-focused Hermes variant, Nemo Hermes. Standard Hermes agents are the default path; Nemo Hermes agents are supported when the `nemohermes` runner is available or automatic installation is enabled.
+
 It gives a single operator view for the parts that become noisy once you run more than one agent: service health, provider defaults, shared credentials, chat sessions, browser sidecars, VNC, terminal access, local web publishing, backups, restores, clones, remote nodes, and setup readiness.
 
 Fleet is designed for technical operators running personal or team-controlled agent infrastructure on a workstation, homelab, VPN, or trusted LAN. Runtime state and secrets stay local by default; the repository keeps source code separate from `.env`, `runtime/`, `data/`, `logs/`, `secrets/`, and `vendor/hermes-agent/`.
@@ -17,7 +19,7 @@ Fleet is designed for technical operators running personal or team-controlled ag
 ## What Fleet Does
 
 - Creates Hermes Docker agents from a repeatable local baseline.
-- Creates NemoHermes sandbox agents when the `nemohermes` runner is available or auto-install is enabled.
+- Creates Nemo Hermes sandbox agents when the `nemohermes` runner is available or auto-install is enabled.
 - Coordinates local agents and trusted remote Fleet nodes from the same dashboard.
 - Shows agent state, service counts, health, memory readiness, gateway diagnostics, drift, and update status.
 - Opens agent chat, session history, dashboard, VNC, local web preview, and container terminal surfaces.
@@ -34,7 +36,7 @@ Fleet is designed for technical operators running personal or team-controlled ag
 - Node.js 20+ and npm 10+
 - Docker with Docker Compose v2
 - git, when Fleet should clone the default Hermes source checkout automatically
-- Optional: `nemohermes` on `PATH` for NemoHermes sandbox agents
+- Optional: `nemohermes` on `PATH` for Nemo Hermes sandbox agents
 
 The onboarding screen checks these requirements. From a terminal, run the same check with:
 

@@ -11,7 +11,7 @@ Fleet starts with process environment variables, then loads env files in this or
 3. `HERMES_CONSOLE_ENV_FILE`
 4. `<HERMES_INSTANCES_ROOT>/.env` when `HERMES_INSTANCES_ROOT` points outside the default root
 
-Later files can override earlier values.
+Values already present in the process environment are not overwritten by env files. Among env files, the first file that defines a key wins. If Fleet appears to ignore `.env`, check for exported shell variables or service-manager environment values with the same name.
 
 ## Path Resolution
 

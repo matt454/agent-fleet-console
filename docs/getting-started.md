@@ -30,7 +30,9 @@ Open:
 http://127.0.0.1:5180
 ```
 
-The default production server binds to localhost. Keep it that way unless you have configured auth.
+The default generated config binds the production server to `0.0.0.0` so trusted LAN machines can use this console as a Fleet node. On the host itself, keep opening `http://127.0.0.1:5180`; from another trusted LAN machine, use `http://<console-lan-ip>:5180`.
+
+Because the default bind is LAN-visible, setup requires `HERMES_CONSOLE_TOKEN` and `HERMES_CONSOLE_REQUIRE_AUTH=1`. If no token exists yet, `npm run setup` prompts for one or generates one automatically.
 
 ## What Setup Does
 
@@ -45,6 +47,14 @@ The default production server binds to localhost. Keep it that way unless you ha
 - runs a final setup baseline check
 
 The generated `.env` is local machine state and is ignored by git.
+
+Setup does not overwrite an existing `.env` unless you explicitly force it:
+
+```bash
+npm run setup:baseline -- --force-env
+```
+
+If an existing `.env` still has `HERMES_CONSOLE_HOST=127.0.0.1`, edit it to `HERMES_CONSOLE_HOST=0.0.0.0` before using the machine as a remote Fleet node.
 
 ## Baseline Check
 
@@ -82,7 +92,7 @@ The production app serves both the API and built frontend from:
 http://127.0.0.1:5180
 ```
 
-Set `HERMES_CONSOLE_PORT` to use a different port.
+That URL is the local browser address. LAN clients use the host's LAN address on the same port, for example `http://192.168.3.232:5180`. Set `HERMES_CONSOLE_PORT` to use a different port.
 
 ## Development Mode
 
@@ -128,6 +138,8 @@ When `HERMES_INSTANCES_ROOT` is external, Fleet also loads:
 
 Use that only for shared instance-root configuration. Keep host-specific console settings in this repository's `.env`.
 
+Process environment variables have priority over env files. If a shell profile, process manager, or macOS `launchctl` environment still exports `HERMES_CONSOLE_HOST=127.0.0.1`, Fleet will remain local-only until that exported value is removed or changed.
+
 ## LAN Or Reverse Proxy Access
 
 The default generated config is LAN-visible for Fleet node coordination:
@@ -145,6 +157,14 @@ HERMES_CONSOLE_HOST=127.0.0.1
 ```
 
 The server refuses non-loopback binds when `HERMES_CONSOLE_TOKEN` is empty. `npm run setup` can generate a token when one is required.
+
+After changing bind or auth settings, restart Fleet and confirm the server is listening on all interfaces:
+
+```bash
+lsof -nP -iTCP:5180 -sTCP:LISTEN
+```
+
+The listener should show `*:5180` or `0.0.0.0:5180`. If it still shows `127.0.0.1:5180`, check for an existing `.env` value or exported machine environment variable.
 
 Recommended reverse-proxy target:
 
@@ -181,6 +201,7 @@ Then check:
 - `bin/hermes-docker` is executable.
 - `HERMES_AGENT_SRC` points to a valid Hermes checkout or auto-clone is enabled.
 - `HERMES_CONSOLE_TOKEN` is set when binding outside localhost.
+- `HERMES_CONSOLE_HOST=0.0.0.0` is active when the machine should be reachable as a remote Fleet node.
 
 For direct local Docker inspection:
 

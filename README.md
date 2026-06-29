@@ -57,9 +57,11 @@ Open:
 http://127.0.0.1:5180
 ```
 
-`npm run setup` prepares ignored runtime folders, creates `.env` when missing, fixes executable bits on wrapper scripts, installs npm dependencies when needed, clones the configured Hermes source when it is missing, and runs the baseline check.
+`npm run setup` prepares ignored runtime folders, creates `.env` when missing, fixes executable bits on wrapper scripts, installs npm dependencies when needed, clones the configured Hermes source when it is missing, and runs the baseline check. New env files bind the console to `0.0.0.0` so trusted LAN machines can reach it, and setup prompts for or generates `HERMES_CONSOLE_TOKEN` because LAN-visible consoles must use API auth.
 
 `npm start` runs the baseline check, builds the frontend, and serves the production app from the Express server.
+
+From the console host itself, open `http://127.0.0.1:5180`. From another trusted LAN machine, open `http://<console-lan-ip>:5180` and enter the console token when prompted. To keep Fleet local-only, set `HERMES_CONSOLE_HOST=127.0.0.1` in `.env`.
 
 For active development:
 
@@ -143,6 +145,8 @@ Fleet reads process env first, then these files when present:
 3. `HERMES_CONSOLE_ENV_FILE`
 4. `<HERMES_INSTANCES_ROOT>/.env` when `HERMES_INSTANCES_ROOT` is external
 
+Existing process environment variables win over `.env` values. If a shell profile, service manager, or `launchctl` export still sets `HERMES_CONSOLE_HOST=127.0.0.1`, Fleet will stay loopback-only even when `.env` says `0.0.0.0`.
+
 The most important local settings are:
 
 ```env
@@ -158,6 +162,8 @@ HERMES_CONSOLE_DATA_DIR=./data
 HERMES_CONSOLE_SECRETS_DIR=./secrets
 HERMES_CONSOLE_REQUIRE_AUTH=1
 ```
+
+For a remote Fleet node, the base URL entered in **Fleet settings -> Fleet nodes** should use the remote machine's LAN address, for example `http://192.168.3.232:5180`, plus the same bearer token stored in that remote node's `.env`.
 
 Fleet-wide provider defaults and shared credentials are managed from **Fleet settings** and stored in ignored files:
 

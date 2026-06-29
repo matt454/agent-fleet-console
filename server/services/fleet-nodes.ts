@@ -149,6 +149,12 @@ function notFound(message: string) {
   return error;
 }
 
+function upstreamUnavailable(status: number, message: string) {
+  const error = new Error(message) as Error & { status?: number };
+  error.status = status;
+  return error;
+}
+
 async function remoteJson(node: FleetNodeRecord, path: string, options: RequestInit = {}, timeoutMs = 4500) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -170,6 +176,17 @@ async function remoteJson(node: FleetNodeRecord, path: string, options: RequestI
   } finally {
     clearTimeout(timer);
   }
+}
+
+function isRemoteRouteMissing(error: any) {
+  return /HTTP 404|Cannot (GET|POST|DELETE|PUT|PATCH)/i.test(error?.message || "");
+}
+
+function remoteTelegramUnavailableError(node: FleetNodeRecord, action: string) {
+  return upstreamUnavailable(
+    409,
+    `Telegram ${action} is not available on ${node.label}. Update and restart that Fleet Console node, then try again.`,
+  );
 }
 
 export async function remoteFetch(node: FleetNodeRecord, path: string, options: RequestInit = {}, timeoutMs = 4500) {
@@ -316,19 +333,34 @@ export async function proxyCreateInstance(nodeId: string, payload: any, requeste
 export async function proxyStartTelegramOnboarding(nodeId: string, payload: any = {}) {
   if (nodeId === "local") return startTelegramOnboarding(payload);
   const row = proxyNode(nodeId)!;
-  return remoteJson(row, "/api/telegram/onboarding/start", { method: "POST", body: JSON.stringify(payload || {}) }, 12000);
+  try {
+    return await remoteJson(row, "/api/telegram/onboarding/start", { method: "POST", body: JSON.stringify(payload || {}) }, 12000);
+  } catch (error: any) {
+    if (isRemoteRouteMissing(error)) throw remoteTelegramUnavailableError(row, "QR setup");
+    throw error;
+  }
 }
 
 export async function proxyTelegramOnboardingStatus(nodeId: string, pairingId: string) {
   if (nodeId === "local") return telegramOnboardingStatus(pairingId);
   const row = proxyNode(nodeId)!;
-  return remoteJson(row, `/api/telegram/onboarding/${encodeURIComponent(pairingId)}`, {}, 12000);
+  try {
+    return await remoteJson(row, `/api/telegram/onboarding/${encodeURIComponent(pairingId)}`, {}, 12000);
+  } catch (error: any) {
+    if (isRemoteRouteMissing(error)) throw remoteTelegramUnavailableError(row, "QR setup status");
+    throw error;
+  }
 }
 
 export async function proxyCancelTelegramOnboarding(nodeId: string, pairingId: string) {
   if (nodeId === "local") return cancelTelegramOnboarding(pairingId);
   const row = proxyNode(nodeId)!;
-  return remoteJson(row, `/api/telegram/onboarding/${encodeURIComponent(pairingId)}`, { method: "DELETE" }, 12000);
+  try {
+    return await remoteJson(row, `/api/telegram/onboarding/${encodeURIComponent(pairingId)}`, { method: "DELETE" }, 12000);
+  } catch (error: any) {
+    if (isRemoteRouteMissing(error)) throw remoteTelegramUnavailableError(row, "QR setup cancellation");
+    throw error;
+  }
 }
 
 export async function proxyInstance(nodeId: string, name: string) {
@@ -376,7 +408,13 @@ export async function proxyTelegramSetup(nodeId: string, name: string, payload: 
   const telegram = validators.normalizeCreateTelegramSetup(payload?.telegram || payload || {});
   if (nodeId === "local") return { job: annotateFleetJob(createJob("telegram-setup", name, { telegram }, requestedBy), "local") };
   const row = proxyNode(nodeId)!;
-  const data = await remoteJson(row, `/api/instances/${encodeURIComponent(name)}/telegram`, { method: "POST", body: JSON.stringify({ telegram }) }, 10000);
+  let data;
+  try {
+    data = await remoteJson(row, `/api/instances/${encodeURIComponent(name)}/telegram`, { method: "POST", body: JSON.stringify({ telegram }) }, 10000);
+  } catch (error: any) {
+    if (isRemoteRouteMissing(error)) throw remoteTelegramUnavailableError(row, "setup");
+    throw error;
+  }
   return { job: annotateJob(data.job, { ...rowToNode(row), status: "online" }) };
 }
 

@@ -152,10 +152,11 @@ HERMES_AGENT_SRC=./vendor/hermes-agent
 HERMES_AGENT_AUTO_CLONE=1
 HERMES_CAMOFOX_CONTEXT=./docker/camofox
 HERMES_WEBHOST_CONTEXT=./docker/webhost
-HERMES_CONSOLE_HOST=127.0.0.1
+HERMES_CONSOLE_HOST=0.0.0.0
 HERMES_CONSOLE_PORT=5180
 HERMES_CONSOLE_DATA_DIR=./data
 HERMES_CONSOLE_SECRETS_DIR=./secrets
+HERMES_CONSOLE_REQUIRE_AUTH=1
 ```
 
 Fleet-wide provider defaults and shared credentials are managed from **Fleet settings** and stored in ignored files:
@@ -186,14 +187,14 @@ See [Configuration reference](docs/configuration.md) for the full environment an
 
 ## Security Defaults
 
-Fleet binds to `127.0.0.1` by default. Before exposing it to a LAN, VPN, reverse proxy, or public network, set:
+Fleet binds to `0.0.0.0` by default so trusted LAN Fleet nodes can reach it. Keep API auth enabled and set:
 
 ```env
 HERMES_CONSOLE_TOKEN=<long-random-token>
 HERMES_CONSOLE_REQUIRE_AUTH=1
 ```
 
-The server refuses non-loopback binds unless `HERMES_CONSOLE_TOKEN` is set. `npm run setup` prompts for a token when LAN binding or required auth needs one.
+The server refuses non-loopback binds unless `HERMES_CONSOLE_TOKEN` is set. `npm run setup` prompts for or generates a token when LAN binding or required auth needs one. For local-only use, set `HERMES_CONSOLE_HOST=127.0.0.1`.
 
 Treat Fleet as a control plane. It can start and stop containers, open terminals, sync credentials, restore backups, create agents, proxy remote node actions, and optionally run self-update commands. Keep individual Hermes dashboards, Camofox VNC endpoints, and agent webhosts private unless you intentionally protect and expose them.
 

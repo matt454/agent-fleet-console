@@ -46,9 +46,9 @@ vendor/hermes-agent/
 
 ## Security Model
 
-Fleet binds to `127.0.0.1` by default. It should be treated as an administrator control plane because it can create containers, stop containers, open terminals, sync credentials, restore backups, and proxy actions to remote nodes.
+Fleet binds to `0.0.0.0` by default so trusted LAN Fleet nodes can reach it. It should be treated as an administrator control plane because it can create containers, stop containers, open terminals, sync credentials, restore backups, and proxy actions to remote nodes.
 
-Before binding outside localhost, set:
+Keep API auth enabled and set:
 
 ```env
 HERMES_CONSOLE_TOKEN=<long-random-token>

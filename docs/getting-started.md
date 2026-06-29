@@ -130,18 +130,18 @@ Use that only for shared instance-root configuration. Keep host-specific console
 
 ## LAN Or Reverse Proxy Access
 
-For local-only use, keep:
-
-```env
-HERMES_CONSOLE_HOST=127.0.0.1
-```
-
-Before exposing Fleet to a LAN, VPN, or reverse proxy:
+The default generated config is LAN-visible for Fleet node coordination:
 
 ```env
 HERMES_CONSOLE_HOST=0.0.0.0
 HERMES_CONSOLE_TOKEN=<long-random-token>
 HERMES_CONSOLE_REQUIRE_AUTH=1
+```
+
+For local-only use, switch back to:
+
+```env
+HERMES_CONSOLE_HOST=127.0.0.1
 ```
 
 The server refuses non-loopback binds when `HERMES_CONSOLE_TOKEN` is empty. `npm run setup` can generate a token when one is required.

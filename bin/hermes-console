@@ -27,7 +27,7 @@ if [[ "$ROOT" != "$DEFAULT_ROOT" ]]; then
   hermes_load_standard_env "$ROOT" "$PROJECT_ROOT"
 fi
 CONSOLE_DIR="$(resolve_project_path "${HERMES_CONSOLE_DIR:-$PROJECT_ROOT}")"
-HOST="${HERMES_CONSOLE_HOST:-127.0.0.1}"
+HOST="${HERMES_CONSOLE_HOST:-0.0.0.0}"
 PORT="${HERMES_CONSOLE_PORT:-5180}"
 
 cd "$CONSOLE_DIR"

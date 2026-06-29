@@ -32,7 +32,7 @@ Runtime secrets belong in ignored local files only:
 - per-agent `home/.env`
 - per-agent `instance.env`
 
-The console binds to `127.0.0.1` by default. Set `HERMES_CONSOLE_TOKEN` and `HERMES_CONSOLE_REQUIRE_AUTH=1` before binding to `0.0.0.0` or placing the console behind a public proxy.
+The console binds to `0.0.0.0` by default for trusted LAN Fleet-node access. Keep `HERMES_CONSOLE_TOKEN` set and `HERMES_CONSOLE_REQUIRE_AUTH=1`; use `HERMES_CONSOLE_HOST=127.0.0.1` for local-only operation.
 
 The server refuses to start on a non-loopback bind unless `HERMES_CONSOLE_TOKEN` is set. Treat the console as a full control plane: it can start containers, stop containers, update agents, open terminals, sync credentials, restore backups, and coordinate remote Fleet nodes.
 

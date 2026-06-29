@@ -10,6 +10,25 @@ import { registerBackupRoutes } from "./routes/backups.ts";
 import { registerFleetRoutes } from "./routes/fleet.ts";
 import { registerTelegramRoutes } from "./routes/telegram.ts";
 
+function requestHostname(requestHost = "") {
+  const value = requestHost.trim();
+  if (!value) return "";
+  try {
+    return new URL(`http://${value}`).hostname;
+  } catch {
+    return value.split(":")[0] || "";
+  }
+}
+
+export function devFrontendRedirectUrl(devFrontendUrl: string, originalUrl = "/", requestHost = "") {
+  const target = new URL(originalUrl || "/", devFrontendUrl);
+  const hostname = requestHostname(requestHost);
+  if (hostname && !["localhost", "127.0.0.1", "::1"].includes(hostname) && ["localhost", "127.0.0.1", "0.0.0.0", "::1"].includes(target.hostname)) {
+    target.hostname = hostname;
+  }
+  return target.toString();
+}
+
 export function createApp() {
   const app = express();
   const router = express.Router();
@@ -32,8 +51,7 @@ export function createApp() {
   const devFrontendUrl = process.env.HERMES_CONSOLE_DEV_FRONTEND_URL;
   if (devFrontendUrl) {
     app.get(/.*/, (req, res) => {
-      const target = new URL(req.originalUrl || "/", devFrontendUrl);
-      res.redirect(target.toString());
+      res.redirect(devFrontendRedirectUrl(devFrontendUrl, req.originalUrl || "/", req.get("host") || ""));
     });
     return app;
   }

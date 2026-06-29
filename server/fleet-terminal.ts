@@ -95,8 +95,13 @@ export function createFleetTerminalUpgradeHandler() {
       socket.write(["HTTP/1.1 101 Switching Protocols", "Upgrade: websocket", "Connection: Upgrade", `Sec-WebSocket-Accept: ${accept}`, "", ""].join("\r\n"));
       const remote = new WebSocket(remoteUrl);
       let frameBuffer: Buffer = Buffer.alloc(0);
+      let cleanedUp = false;
       const cleanup = () => {
-        try { remote.close(); } catch {}
+        if (cleanedUp) return;
+        cleanedUp = true;
+        try {
+          if (remote.readyState === WebSocket.CONNECTING || remote.readyState === WebSocket.OPEN) remote.close();
+        } catch {}
         webSocketClose(socket);
       };
       remote.addEventListener("message", (event: any) => {

@@ -69,7 +69,7 @@ For active development:
 npm run dev
 ```
 
-The API runs on `http://127.0.0.1:5180`; the Vite frontend runs on `http://127.0.0.1:5200` and proxies `/api` to the API server.
+The API runs on `http://127.0.0.1:5180`; the Vite frontend runs on `http://127.0.0.1:5200` and proxies `/api` to the API server. In dev mode, Vite listens on `0.0.0.0` by default so LAN clients redirected by the API can reach the frontend; set `HERMES_CONSOLE_DEV_HOST=127.0.0.1` for local-only development.
 
 ## First Run
 

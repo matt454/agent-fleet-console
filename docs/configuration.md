@@ -114,12 +114,12 @@ Self-update is disabled by default. When enabled, Fleet can run git/npm update o
 ```env
 HERMES_CONSOLE_API_PORT=5180
 HERMES_CONSOLE_DEV_FRONTEND_PORT=5200
-HERMES_CONSOLE_DEV_HOST=127.0.0.1
-HERMES_CONSOLE_DEV_HMR_HOST=localhost
+HERMES_CONSOLE_DEV_HOST=0.0.0.0
+HERMES_CONSOLE_DEV_HMR_HOST=
 HERMES_CONSOLE_DEV_FRONTEND_URL=http://localhost:5200
 ```
 
-`npm run dev` sets the API port and frontend URL. Vite reads the frontend host and port from `vite.config.ts`.
+`npm run dev` sets the API port and frontend URL. Vite reads the frontend host and port from `vite.config.ts`. When `HERMES_CONSOLE_DEV_HMR_HOST` is empty, Vite uses the page host for hot-module websocket connections; set it only when a proxy or tunnel requires a fixed HMR hostname.
 
 ## Chat Limits
 

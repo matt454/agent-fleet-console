@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const APP_ROOT = path.resolve(__dirname, "..");
 const apiPort = process.env.HERMES_CONSOLE_API_PORT || process.env.HERMES_CONSOLE_PORT || "5180";
-const devHost = process.env.HERMES_CONSOLE_DEV_HOST || "127.0.0.1";
+const devHost = process.env.HERMES_CONSOLE_DEV_HOST || "0.0.0.0";
 const frontendPort = process.env.HERMES_CONSOLE_DEV_FRONTEND_PORT || "5200";
 
 function runBlocking(command, args) {

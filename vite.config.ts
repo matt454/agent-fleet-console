@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 const apiPort = process.env.HERMES_CONSOLE_API_PORT || "5180";
-const devHost = process.env.HERMES_CONSOLE_DEV_HOST || "127.0.0.1";
+const devHost = process.env.HERMES_CONSOLE_DEV_HOST || "0.0.0.0";
 const frontendPort = Number(process.env.HERMES_CONSOLE_DEV_FRONTEND_PORT || 5200);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,7 +24,7 @@ export default defineConfig({
     },
     hmr: {
       protocol: "ws",
-      host: process.env.HERMES_CONSOLE_DEV_HMR_HOST || "localhost",
+      ...(process.env.HERMES_CONSOLE_DEV_HMR_HOST ? { host: process.env.HERMES_CONSOLE_DEV_HMR_HOST } : {}),
       port: frontendPort,
     },
     proxy: {

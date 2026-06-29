@@ -107,13 +107,15 @@ API:      http://127.0.0.1:5180
 Frontend: http://127.0.0.1:5200
 ```
 
+Those are the local browser URLs. By default, Vite binds to `0.0.0.0` so LAN clients can follow API redirects to `http://<console-lan-ip>:5200`; set `HERMES_CONSOLE_DEV_HOST=127.0.0.1` to keep the dev frontend local-only.
+
 Vite proxies `/api` and websocket traffic to the API server. Useful environment values:
 
 ```env
 HERMES_CONSOLE_API_PORT=5180
 HERMES_CONSOLE_DEV_FRONTEND_PORT=5200
-HERMES_CONSOLE_DEV_HOST=127.0.0.1
-HERMES_CONSOLE_DEV_HMR_HOST=localhost
+HERMES_CONSOLE_DEV_HOST=0.0.0.0
+HERMES_CONSOLE_DEV_HMR_HOST=
 ```
 
 ## Existing Hermes Agents

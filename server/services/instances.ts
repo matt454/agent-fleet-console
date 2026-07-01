@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import os from "node:os";
+import path from "node:path";
 import { HERMES_DOCKER, ROOT, validators } from "../config.ts";
 import { fileExists, parseEnv, readTextIfExists } from "../lib/env-file.ts";
 import { run } from "../lib/process.ts";
@@ -10,25 +11,27 @@ import { recentEvents } from "./records.ts";
 import { webInfoFromEnv } from "./web-hosting.ts";
 import { isNemoClawInstance, nemoHermesSnapshot } from "./nemoclaw.ts";
 
+async function looksLikeAgentDir(dir: string) {
+  return await fileExists(`${dir}/nemoclaw.json`)
+    || await fileExists(`${dir}/compose.yaml`)
+    || (await fileExists(`${dir}/home`) && await fileExists(`${dir}/workspace`));
+}
+
 export async function discoverInstanceNames() {
   await fs.mkdir(ROOT, { recursive: true });
   const entries = await fs.readdir(ROOT, { withFileTypes: true });
-  const names = [];
+  const names = new Set<string>();
   for (const entry of entries) {
-    if (!entry.isDirectory() || entry.name.startsWith(".")) continue;
+    if (entry.name.startsWith(".")) continue;
     let name = "";
     try {
-      name = validators.validateName(entry.name);
+      name = validators.validateName(entry.name.toLowerCase());
     } catch {
       continue;
     }
-    const dir = instanceDir(name);
-    const looksLikeAgent = await fileExists(`${dir}/nemoclaw.json`)
-      || await fileExists(`${dir}/compose.yaml`)
-      || (await fileExists(`${dir}/home`) && await fileExists(`${dir}/workspace`));
-    if (looksLikeAgent) names.push(name);
+    if (await looksLikeAgentDir(path.join(ROOT, entry.name))) names.add(name);
   }
-  return names;
+  return [...names];
 }
 
 async function instanceExists(name: string) {

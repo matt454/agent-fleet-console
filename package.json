@@ -1,7 +1,7 @@
 {
   "name": "hermes-fleet-console",
   "private": true,
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Local-first web console for operating Dockerized Hermes and NemoClaw agent fleets.",
   "license": "MIT",
   "author": "Matthew Lockyer",

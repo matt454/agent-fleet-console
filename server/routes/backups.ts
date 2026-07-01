@@ -2,7 +2,7 @@ import path from "node:path";
 import type { Router } from "express";
 import { validators } from "../config.ts";
 import { createJob } from "../services/jobs.ts";
-import { inspectBackup, listBackups } from "../services/backups.ts";
+import { importBackup, inspectBackup, listBackups } from "../services/backups.ts";
 import { safeArchivePath } from "../services/backup-files.ts";
 
 export function registerBackupRoutes(router: Router) {
@@ -26,6 +26,15 @@ export function registerBackupRoutes(router: Router) {
   router.post("/backups/export", (req, res) => {
     const payload = validators.normalizeBackupExport(req.body || {});
     res.status(202).json({ job: createJob("backup-export", payload.names?.[0] || "", payload, req.ip || "local") });
+  });
+
+  router.post("/backups/import", async (req, res, next) => {
+    try {
+      const originalFile = String(req.get("x-hermes-archive-file") || req.query.file || "archive.tar.gz");
+      res.status(201).json(await importBackup(req, originalFile));
+    } catch (error) {
+      next(error);
+    }
   });
 
   router.post("/backups/inspect", async (req, res, next) => {

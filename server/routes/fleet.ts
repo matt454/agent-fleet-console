@@ -18,6 +18,7 @@ import {
   proxyInstance,
   proxyInstanceDisplayName,
   proxyClone,
+  proxyMove,
   proxyConsoleGitUpdateRestart,
   proxyConsoleGitUpdateStatus,
   proxyInstanceAction,
@@ -144,6 +145,15 @@ export function registerFleetRoutes(router: Router) {
     try {
       const name = validators.validateName(req.params.name);
       res.status(202).json(await proxyClone(req.params.nodeId, name, req.body || {}, req.ip || "local"));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post("/fleet/:nodeId/instances/:name/move", async (req, res, next) => {
+    try {
+      const name = validators.validateName(req.params.name);
+      res.status(202).json(await proxyMove(req.params.nodeId, name, req.body || {}, req.ip || "local"));
     } catch (error) {
       next(error);
     }

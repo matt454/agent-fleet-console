@@ -1,5 +1,7 @@
+import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { pipeline } from "node:stream/promises";
 import { GLOBAL_CREDENTIALS_FILE, GLOBAL_PROVIDER_FILE, HERMES_DOCKER } from "../config.ts";
 import { run } from "../lib/process.ts";
 import { readTextIfExists, writePrivateFile } from "../lib/env-file.ts";
@@ -14,6 +16,14 @@ import os from "node:os";
 type ExportOptions = { scope: string; names: string[]; includeSecrets: boolean; includeWorkspace: boolean };
 type RestoreOptions = { archivePath: string; namePrefix: string; restoreGlobalConfig: boolean; restoreSecrets: boolean; startRestored: boolean };
 type CloneOptions = { newName: string; copyWorkspace: boolean; copyCredentials: boolean; start: boolean };
+
+function importedArchiveName(originalFile = "") {
+  const base = path.basename(originalFile || "archive.tar.gz")
+    .replace(/[^A-Za-z0-9_.-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const archiveBase = base.endsWith(".tar.gz") ? base : "archive.tar.gz";
+  return `hermes-import-${new Date().toISOString().replace(/[:.]/g, "-")}-${archiveBase}`;
+}
 
 function lanAddress() {
   for (const rows of Object.values(os.networkInterfaces())) {
@@ -37,6 +47,20 @@ export async function listBackups() {
   await ensureBackupDir();
   const files = (await fs.readdir(BACKUP_DIR)).filter((file) => file.endsWith(".tar.gz"));
   return Promise.all(files.map((file) => archiveStats(path.join(BACKUP_DIR, file))));
+}
+
+export async function importBackup(readable: NodeJS.ReadableStream, originalFile = "") {
+  await ensureBackupDir();
+  const file = importedArchiveName(originalFile);
+  const archive = safeArchivePath(file);
+  try {
+    await pipeline(readable, fsSync.createWriteStream(archive, { mode: 0o600 }));
+    const manifest = await archiveManifest(archive);
+    return { archive: await archiveStats(archive), manifest };
+  } catch (error) {
+    await fs.rm(archive, { force: true });
+    throw error;
+  }
 }
 
 function globalManifest(includeSecrets: boolean) {

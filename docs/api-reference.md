@@ -153,6 +153,7 @@ These routes work for `local` and remote node IDs. The UI uses these routes for 
 | `PUT` | `/api/fleet/:nodeId/instances/:name/display-name` | Set an agent display name |
 | `POST` | `/api/fleet/:nodeId/instances/:name/actions` | Queue start, stop, restart, update, or delete |
 | `POST` | `/api/fleet/:nodeId/instances/:name/clone` | Clone an agent on that node |
+| `POST` | `/api/fleet/:nodeId/instances/:name/move` | Move an agent to another Fleet node through backup, transfer, restore, verify, and optional source removal |
 | `POST` | `/api/fleet/:nodeId/instances/:name/telegram` | Queue Telegram setup for an agent |
 | `GET` | `/api/fleet/:nodeId/instances/:name/gateway` | Dashboard, VNC, web, proxy, auth, and diagnostics URLs |
 | `GET` | `/api/fleet/:nodeId/instances/:name/terminal-ticket` | Create a terminal websocket ticket |
@@ -277,6 +278,7 @@ Credential payload:
 | `GET` | `/api/backups` | List local backups |
 | `GET` | `/api/backups/:file/download` | Download local backup archive |
 | `POST` | `/api/backups/export` | Queue local backup export |
+| `POST` | `/api/backups/import` | Import a streamed `.tar.gz` archive into the local backup directory |
 | `POST` | `/api/backups/inspect` | Inspect a local archive path |
 | `POST` | `/api/backups/restore` | Queue restore from local archive path |
 
@@ -289,6 +291,27 @@ Inspect payload:
 ```
 
 Restore payloads are validated by the server and can include target names, prefix options, workspace options, and secret handling flags.
+
+Move payload:
+
+```json
+{
+  "targetNodeId": "workstation-2",
+  "includeWorkspace": true,
+  "includeSecrets": false,
+  "startTarget": true,
+  "removeSource": false
+}
+```
+
+When `removeSource` is true, include the usual risky-action confirmation flags:
+
+```json
+{
+  "confirmed": true,
+  "riskConfirmed": true
+}
+```
 
 ## Telegram Onboarding Endpoints
 

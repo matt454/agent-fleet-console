@@ -9,6 +9,7 @@ import { applyTemplateToInstance, getTemplate } from "./templates.ts";
 import { parseJson, recordEvent, rowToJob } from "./records.ts";
 import { resolveChatJobResult, runChatJob } from "./sessions.ts";
 import { cloneInstance, exportBackup, restoreBackup } from "./backups.ts";
+import { runFleetMove } from "./fleet-move.ts";
 import { allocateInstancePorts } from "./ports.ts";
 import { writeWebInstructions } from "./web-hosting.ts";
 import os from "node:os";
@@ -225,6 +226,9 @@ async function runDockerAction(job: any) {
     case "clone": {
       const result = await cloneInstance(job.instance, payload as any);
       return { output: `Cloned ${job.instance} to ${result.target}.`, result };
+    }
+    case "fleet-move": {
+      return runFleetMove(job, (progress) => updateJob(job.id, { progress }));
     }
     default:
       throw new Error(`Unsupported job action: ${job.action}`);

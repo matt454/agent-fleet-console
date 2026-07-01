@@ -1,6 +1,6 @@
 import { Bot, BriefcaseBusiness, CalendarClock, Edit3, Globe2, MessageCircle, MessagesSquare, RotateCw, ServerCog, SquareActivity, X } from "lucide-react";
 import { useState } from "react";
-import type { AgentBackupOptions, AgentCloneOptions, Instance, Job, TelegramAgentOptions } from "../models/fleet.ts";
+import type { AgentBackupOptions, AgentCloneOptions, AgentMoveOptions, FleetNode, Instance, Job, TelegramAgentOptions } from "../models/fleet.ts";
 import { isAgentReady } from "../controllers/format.ts";
 import { Button } from "../components/ui/button.tsx";
 import { DialogContent, DialogHeader, DialogOverlay, DialogTitle } from "../components/ui/dialog.tsx";
@@ -25,7 +25,7 @@ const ADVANCED_TABS = [
   { label: "Services", icon: ServerCog },
 ];
 
-export function AgentDetailModal({ open, onClose, selected, jobs, instances, pendingAction, onBackupAgent, onCloneAgent, onConnectTelegram, onRenameAgent, runAction, cancelJob, refresh, openAgent }: {
+export function AgentDetailModal({ open, onClose, selected, jobs, instances, pendingAction, onBackupAgent, onCloneAgent, onMoveAgent, onConnectTelegram, onRenameAgent, fleetNodes, runAction, cancelJob, refresh, openAgent }: {
   open: boolean;
   onClose: () => void;
   selected: Instance | null;
@@ -34,8 +34,10 @@ export function AgentDetailModal({ open, onClose, selected, jobs, instances, pen
   pendingAction: string;
   onBackupAgent: (name: string, options: AgentBackupOptions) => Promise<void>;
   onCloneAgent: (name: string, options: AgentCloneOptions) => Promise<void>;
+  onMoveAgent: (name: string, options: AgentMoveOptions, nodeId?: string) => Promise<void>;
   onConnectTelegram: (name: string, telegram: TelegramAgentOptions, nodeId?: string) => Promise<void>;
   onRenameAgent: (name: string, displayName: string, nodeId?: string) => Promise<void>;
+  fleetNodes: FleetNode[];
   runAction: (action: string) => Promise<void>;
   cancelJob: (job: Job) => void;
   refresh: () => void;
@@ -46,7 +48,10 @@ export function AgentDetailModal({ open, onClose, selected, jobs, instances, pen
   const [telegramOpen, setTelegramOpen] = useState(false);
   if (!open || !selected || !isAgentReady(selected, jobs)) return null;
   const selectedNodeId = selected.nodeId || "local";
-  const selectedJobs = jobs.filter((job) => job.instance === selected.name && (job.nodeId || "local") === selectedNodeId);
+  const selectedJobs = jobs.filter((job) => job.instance === selected.name && (
+    (job.nodeId || "local") === selectedNodeId
+    || (job.action === "fleet-move" && job.payload?.sourceNodeId === selectedNodeId)
+  ));
   const lanAddress = selected.network?.lanAddress || "127.0.0.1";
   const healthPort = selected.ports?.health || "n/a";
   const displayName = String(selected.displayName || "").trim() || selected.name;
@@ -88,7 +93,7 @@ export function AgentDetailModal({ open, onClose, selected, jobs, instances, pen
               ) : tab === "Details" ? (
                 <TabsContent className="agent-detail-content" role="tabpanel"><DetailsPanel selected={selected} /></TabsContent>
               ) : tab === "Lifecycle" ? (
-                <TabsContent className="agent-detail-content" role="tabpanel"><LifecyclePanel selected={selected} jobs={selectedJobs} pendingAction={pendingAction} onBackupAgent={onBackupAgent} onCloneAgent={onCloneAgent} runAction={runAction} /></TabsContent>
+                <TabsContent className="agent-detail-content" role="tabpanel"><LifecyclePanel selected={selected} jobs={selectedJobs} instances={instances} fleetNodes={fleetNodes} pendingAction={pendingAction} onBackupAgent={onBackupAgent} onCloneAgent={onCloneAgent} onMoveAgent={(name, options) => onMoveAgent(name, options, selectedNodeId)} runAction={runAction} /></TabsContent>
               ) : tab === "Jobs" ? (
                 <TabsContent className="agent-detail-content" role="tabpanel"><JobsPanel selected={selected} jobs={selectedJobs} cancelJob={cancelJob} /></TabsContent>
               ) : tab === "CRONs" ? (

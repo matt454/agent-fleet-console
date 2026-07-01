@@ -404,6 +404,21 @@ export async function proxyClone(nodeId: string, name: string, payload: any, req
   return remoteJson(row, `/api/instances/${encodeURIComponent(name)}/clone`, { method: "POST", body: JSON.stringify(payload || {}) }, 10000);
 }
 
+export async function proxyMove(nodeId: string, name: string, payload: any, requestedBy = "local") {
+  const sourceNodeId = validators.validateFleetNodeId(nodeId || "local");
+  const options = validators.normalizeMoveOptions(payload || {});
+  if (sourceNodeId === options.targetNodeId) throw badRequest("Choose a different target node");
+  if (sourceNodeId !== "local") proxyNode(sourceNodeId);
+  if (options.targetNodeId !== "local") proxyNode(options.targetNodeId);
+  if (options.removeSource) requireRiskConfirmation("delete", payload);
+  return {
+    job: annotateFleetJob(createJob("fleet-move", name, {
+      sourceNodeId,
+      ...options,
+    }, requestedBy), "local"),
+  };
+}
+
 export async function proxyTelegramSetup(nodeId: string, name: string, payload: any, requestedBy = "local") {
   const telegram = validators.normalizeCreateTelegramSetup(payload?.telegram || payload || {});
   if (nodeId === "local") return { job: annotateFleetJob(createJob("telegram-setup", name, { telegram }, requestedBy), "local") };

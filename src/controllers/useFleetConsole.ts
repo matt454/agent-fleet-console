@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { api, postJson, putJson } from "./api.ts";
 import { activeJob, isAgentReady } from "./format.ts";
-import type { AgentBackupOptions, AgentCloneOptions, AgentSyncTarget, BaselineStatus, CreateAgentOptions, FleetNode, GlobalConfig, Instance, Job, ProviderCatalog, ProviderConfig, TelegramAgentOptions } from "../models/fleet.ts";
+import type { AgentBackupOptions, AgentCloneOptions, AgentMoveOptions, AgentSyncTarget, BaselineStatus, CreateAgentOptions, FleetNode, GlobalConfig, Instance, Job, ProviderCatalog, ProviderConfig, TelegramAgentOptions } from "../models/fleet.ts";
 import { EMPTY_GLOBAL_CONFIG } from "../models/fleet.ts";
 
 function delay(ms: number) {
@@ -245,6 +245,15 @@ export function useFleetConsole() {
     await loadFleet(true);
   }
 
+  async function moveAgent(name: string, options: AgentMoveOptions, nodeId = "local") {
+    await postJson(`/api/fleet/${encodeURIComponent(nodeId)}/instances/${encodeURIComponent(name)}/move`, {
+      ...options,
+      confirmed: options.removeSource,
+      riskConfirmed: options.removeSource,
+    });
+    await loadFleet(true);
+  }
+
   async function connectTelegram(name: string, telegram: TelegramAgentOptions, nodeId = "local") {
     await postJson(`/api/fleet/${encodeURIComponent(nodeId)}/instances/${encodeURIComponent(name)}/telegram`, { telegram });
     await loadFleet(true);
@@ -266,7 +275,7 @@ export function useFleetConsole() {
   }, [activeJobs.length]);
 
   return {
-    activeJobs, backupAgent, baseline, baselineLoading, cancelJob, cloneAgent, connectTelegram, createAgent, createOpen, detailOpen, error, fleetNodes, globalConfig, instances, jobs, loadBaseline, loadFleet,
+    activeJobs, backupAgent, baseline, baselineLoading, cancelJob, cloneAgent, connectTelegram, createAgent, createOpen, detailOpen, error, fleetNodes, globalConfig, instances, jobs, loadBaseline, loadFleet, moveAgent,
     loading, onboardingOpen, openAdvanced, openAgent, pendingAction: selectedName ? pendingActions[selectedName] || "" : "", pendingActions, providerCatalog, refreshing, runAction, runAgentAction, saveGlobalCredential, saveGlobalProvider,
     refreshGlobalConfig: loadGlobalConfig, renameAgent, selected, setCreateOpen, setDetailOpen, setOnboardingOpen, setSettingsOpen, settingsOpen, syncGlobalConfig,
   };

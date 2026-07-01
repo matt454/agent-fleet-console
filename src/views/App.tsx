@@ -15,7 +15,8 @@ function shouldSkipSplash() {
   const params = new URLSearchParams(window.location.search);
   const skip = params.get("skipSplash");
   const splash = params.get("splash");
-  return skip === "1" || skip === "true" || splash === "0" || splash === "false";
+  const demo = params.get("demo");
+  return skip === "1" || skip === "true" || splash === "0" || splash === "false" || demo === "" || demo === "1" || demo === "true";
 }
 
 function todayKey() {
@@ -90,8 +91,10 @@ export function App() {
               pendingAction={fleet.pendingAction}
               onBackupAgent={fleet.backupAgent}
               onCloneAgent={fleet.cloneAgent}
+              onMoveAgent={fleet.moveAgent}
               onConnectTelegram={fleet.connectTelegram}
               onRenameAgent={fleet.renameAgent}
+              fleetNodes={fleet.fleetNodes}
               runAction={fleet.runAction}
               cancelJob={fleet.cancelJob}
               refresh={() => fleet.loadFleet(true)}

@@ -1,6 +1,6 @@
-import { Archive, CircleAlert, CircleStop, Clock, CopyPlus, Download, Gauge, Play, RotateCw, Trash2, type LucideIcon } from "lucide-react";
+import { Archive, CircleAlert, CircleStop, Clock, CopyPlus, Download, Gauge, MoveRight, Play, RotateCw, Trash2, type LucideIcon } from "lucide-react";
 import { useState } from "react";
-import type { AgentBackupOptions, AgentCloneOptions, Instance, Job } from "../models/fleet.ts";
+import type { AgentBackupOptions, AgentCloneOptions, AgentMoveOptions, FleetNode, Instance, Job } from "../models/fleet.ts";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../components/ui/alert-dialog.tsx";
 import { Badge } from "../components/ui/badge.tsx";
 import { Button } from "../components/ui/button.tsx";
@@ -11,6 +11,7 @@ import { Spinner } from "../components/ui/spinner.tsx";
 import { DetailRow } from "./AgentDetailRows.tsx";
 import { AgentBackupModal } from "./AgentBackupModal.tsx";
 import { AgentCloneModal } from "./AgentCloneModal.tsx";
+import { AgentMoveModal } from "./AgentMoveModal.tsx";
 
 type LifecycleAction = "start" | "stop" | "restart" | "update" | "delete";
 type ConfirmableLifecycleAction = Exclude<LifecycleAction, "start">;
@@ -22,17 +23,21 @@ const LIFECYCLE_CONFIRMATION_COPY: Record<ConfirmableLifecycleAction, { title: s
   delete: { title: "Delete this agent?", description: "This permanently removes the agent from the fleet. This action cannot be undone.", actionLabel: "Delete agent", variant: "destructive" },
 };
 
-export function LifecyclePanel({ selected, jobs, pendingAction, onBackupAgent, onCloneAgent, runAction }: {
+export function LifecyclePanel({ selected, jobs, instances, fleetNodes, pendingAction, onBackupAgent, onCloneAgent, onMoveAgent, runAction }: {
   selected: Instance;
   jobs: Job[];
+  instances: Instance[];
+  fleetNodes: FleetNode[];
   pendingAction: string;
   onBackupAgent: (name: string, options: AgentBackupOptions) => Promise<void>;
   onCloneAgent: (name: string, options: AgentCloneOptions) => Promise<void>;
+  onMoveAgent: (name: string, options: AgentMoveOptions) => Promise<void>;
   runAction: (action: string) => Promise<void>;
 }) {
   const [confirmAction, setConfirmAction] = useState<ConfirmableLifecycleAction | null>(null);
   const [backupOpen, setBackupOpen] = useState(false);
   const [cloneOpen, setCloneOpen] = useState(false);
+  const [moveOpen, setMoveOpen] = useState(false);
   const versionsBehind = selected.update?.versionsBehind;
   const updateStatus = selected.update?.status || "unknown";
   const updateKnown = typeof versionsBehind === "number";
@@ -102,6 +107,8 @@ export function LifecyclePanel({ selected, jobs, pendingAction, onBackupAgent, o
           <LifecycleActionRow icon={Archive} title="Back up" description="Create a local archive for this agent." actionLabel="Back up" variant="outline" pending={false} disabled={actionDisabled} onClick={() => setBackupOpen(true)} />
           <Separator />
           <LifecycleActionRow icon={CopyPlus} title="Clone" description="Create a new agent from this agent's state." actionLabel="Clone" variant="outline" pending={false} disabled={actionDisabled} onClick={() => setCloneOpen(true)} />
+          <Separator />
+          <LifecycleActionRow icon={MoveRight} title="Move" description="Transfer this agent to another Fleet node." actionLabel="Move" variant="outline" pending={false} disabled={actionDisabled} onClick={() => setMoveOpen(true)} />
         </CardContent>
       </Card>
       <Card className="lifecycle-danger-card">
@@ -125,6 +132,7 @@ export function LifecyclePanel({ selected, jobs, pendingAction, onBackupAgent, o
       </AlertDialog>
       <AgentBackupModal open={backupOpen} selected={selected} onClose={() => setBackupOpen(false)} onBackup={onBackupAgent} />
       <AgentCloneModal open={cloneOpen} selected={selected} onClose={() => setCloneOpen(false)} onClone={onCloneAgent} />
+      <AgentMoveModal open={moveOpen} selected={selected} instances={instances} fleetNodes={fleetNodes} onClose={() => setMoveOpen(false)} onMove={onMoveAgent} />
     </div>
   );
 }

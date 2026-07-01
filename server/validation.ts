@@ -81,6 +81,10 @@ function validateBackupArchivePath(value) {
   return archivePath;
 }
 
+function validateFleetNodeId(value) {
+  return validateId(value, /^[A-Za-z0-9_-]+$/, "Invalid Fleet node id", 80);
+}
+
 function validateNamePrefix(value) {
   const prefix = String(value || "").trim();
   if (!prefix) return "";
@@ -193,6 +197,16 @@ export function createValidators(options) {
         startRestored: input.startRestored !== false,
       };
     },
+    normalizeMoveOptions(value = {}) {
+      const input = value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, any> : {};
+      return {
+        targetNodeId: validateFleetNodeId(input.targetNodeId || ""),
+        includeWorkspace: input.includeWorkspace !== false,
+        includeSecrets: input.includeSecrets === true,
+        startTarget: input.startTarget !== false,
+        removeSource: input.removeSource === true,
+      };
+    },
     normalizeCloneOptions(value = {}) {
       const input = value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, any> : {};
       return {
@@ -235,6 +249,7 @@ export function createValidators(options) {
     },
     validateCredentialKey: (value) => validateCredentialKey(value, credentialKeyDenylist),
     validateCredentialValue: (value, key = "") => validateCredentialValue(value, key, credentialSuffixes),
+    validateFleetNodeId,
     validateName,
     validateNemoClawName,
     validateProviderId: (value) => ensureOneOf(value, providerIds, "Unsupported provider"),

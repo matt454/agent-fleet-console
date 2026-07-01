@@ -328,6 +328,14 @@ export type AgentCloneOptions = {
   start: boolean;
 };
 
+export type AgentMoveOptions = {
+  targetNodeId: string;
+  includeWorkspace: boolean;
+  includeSecrets: boolean;
+  startTarget: boolean;
+  removeSource: boolean;
+};
+
 export const EMPTY_GLOBAL_CONFIG: GlobalConfig = {
   provider: null,
   credentials: [],

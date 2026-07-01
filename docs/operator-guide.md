@@ -252,6 +252,16 @@ Clone duplicates an existing local agent into a new name. Clone can copy workspa
 
 Use clone when you want a known-good agent shape with fresh ports and independent runtime identity.
 
+## Move
+
+Move transfers a Docker Hermes agent from one Fleet node to another. Fleet exports a single-agent backup on the source node, streams it through the coordinator, imports it on the target node, restores it with fresh ports and runtime secrets, verifies that the target agent exists, then optionally removes the source.
+
+Source removal is opt-in. Leave it off when you want a safe copy first, or enable it when you want Fleet to delete the original after target verification.
+
+Secrets remain opt-in. If secrets are not included, sync credentials or configure per-agent credentials on the target after the move.
+
+NemoHermes agents are not moved by the current restore workflow. Recreate those agents on the target node or use a manual runtime-specific process.
+
 ## Fleet Nodes
 
 Open **Fleet settings -> Fleet nodes** to add another Fleet console.

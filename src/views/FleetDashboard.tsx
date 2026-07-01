@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp, Minus, Archive, BriefcaseBusiness, ChevronDown, ChevronRight, ChevronUp, CircleStop, Clock, CopyPlus, Download, Edit3, EllipsisVertical, ExternalLink, Globe2, HardDrive, MemoryStick, Network, Play, Plus, RotateCw, Search, Trash2, Wrench } from "lucide-react";
+import { ArrowDown, ArrowUp, Minus, Archive, BriefcaseBusiness, ChevronDown, ChevronRight, ChevronUp, CircleStop, Clock, CopyPlus, Download, Edit3, EllipsisVertical, ExternalLink, Globe2, HardDrive, MemoryStick, MoveRight, Network, Play, Plus, RotateCw, Search, Trash2, Wrench } from "lucide-react";
 import { Fragment, useCallback, useEffect, useMemo, useState, type ComponentType } from "react";
-import type { AgentBackupOptions, AgentCloneOptions, AgentSyncTarget, BaselineStatus, FleetNode, GlobalConfig, Instance, Job, ProviderCatalog, ProviderConfig } from "../models/fleet.ts";
+import type { AgentBackupOptions, AgentCloneOptions, AgentMoveOptions, AgentSyncTarget, BaselineStatus, FleetNode, GlobalConfig, Instance, Job, ProviderCatalog, ProviderConfig } from "../models/fleet.ts";
 import { classNames, isAgentReady, stateLabel, stateTone } from "../controllers/format.ts";
 import { FLEET_METRIC_HISTORY_KEY, appendFleetMetricSnapshot, buildFleetMetricSnapshot, fleetMetricSeries, sanitizeFleetMetricHistory, sparklineGeometry, trendDelta, type FleetMetricSnapshot } from "../controllers/fleet-metrics.ts";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../components/ui/alert-dialog.tsx";
@@ -13,6 +13,7 @@ import { Input } from "../components/ui/input.tsx";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table.tsx";
 import { AgentBackupModal } from "./AgentBackupModal.tsx";
 import { AgentCloneModal } from "./AgentCloneModal.tsx";
+import { AgentMoveModal } from "./AgentMoveModal.tsx";
 import { AgentRenameModal } from "./AgentRenameModal.tsx";
 import { OnboardingScreen } from "./OnboardingScreen.tsx";
 import { SettingsScreen } from "./SettingsModal.tsx";
@@ -29,6 +30,7 @@ type Props = {
   openAdvanced: (name?: string, nodeId?: string) => void;
   backupAgent: (name: string, options: AgentBackupOptions, nodeId?: string) => Promise<void>;
   cloneAgent: (name: string, options: AgentCloneOptions, nodeId?: string) => Promise<void>;
+  moveAgent: (name: string, options: AgentMoveOptions, nodeId?: string) => Promise<void>;
   pendingActions: Record<string, string>;
   renameAgent: (name: string, displayName: string, nodeId?: string) => Promise<void>;
   runAgentAction: (name: string, action: string, nodeId?: string) => Promise<void>;
@@ -58,22 +60,34 @@ function fleetKey(name: string, nodeId?: string) {
   return `${nodeId || "local"}:${name}`;
 }
 
+function shouldShowDemoPage() {
+  if (typeof window === "undefined") return false;
+  const value = new URLSearchParams(window.location.search).get("demo");
+  return value === "" || value === "1" || value === "true";
+}
+
+const DEMO_ACTIVE_JOBS: Job[] = [];
+
 export function FleetDashboard(props: Props) {
   const [emptyDashboardOpen, setEmptyDashboardOpen] = useState(false);
-  const snapshot = useMemo(() => buildFleetMetricSnapshot(props.instances, props.activeJobs), [props.instances, props.activeJobs]);
+  const demoPage = shouldShowDemoPage();
+  const instances = demoPage ? BUSINESS_AGENT_PLACEHOLDERS : props.instances;
+  const activeJobs = demoPage ? DEMO_ACTIVE_JOBS : props.activeJobs;
+  const snapshot = useMemo(() => buildFleetMetricSnapshot(instances, activeJobs), [instances, activeJobs]);
   const [metricHistory, setMetricHistory] = useState(readStoredMetricHistory);
-  const hasAgents = props.instances.length > 0;
+  const hasAgents = instances.length > 0;
   const runningAgents = snapshot.runningAgents;
   const serviceCount = snapshot.services;
   const runningServices = snapshot.runningServices;
   const activeJobCount = snapshot.activeJobs;
-  const degraded = runningAgents < props.instances.length || Boolean(serviceCount && runningServices < serviceCount);
+  const degraded = runningAgents < instances.length || Boolean(serviceCount && runningServices < serviceCount);
+  const nodeCount = demoPage ? new Set(instances.map((instance) => instance.nodeId)).size : props.fleetNodes?.length || 1;
   const runningAgentSeries = fleetMetricSeries(metricHistory, "runningAgents", snapshot);
   const serviceHealthSeries = fleetMetricSeries(metricHistory, "serviceHealth", snapshot);
   const activeJobSeries = fleetMetricSeries(metricHistory, "activeJobs", snapshot);
   const dataHealthSeries = fleetMetricSeries(metricHistory, "dataHealth", snapshot);
 
-  const showOnboarding = props.onboardingOpen || (!hasAgents && !emptyDashboardOpen);
+  const showOnboarding = !demoPage && (props.onboardingOpen || (!hasAgents && !emptyDashboardOpen));
 
   useEffect(() => {
     setMetricHistory((current) => {
@@ -176,37 +190,39 @@ export function FleetDashboard(props: Props) {
       activePage="dashboard"
       setupReady={Boolean(props.baseline?.ok)}
       {...pageFrameHandlers.dashboard}
-      cardCompact={props.instances.length <= 2}
+      cardCompact={instances.length <= 2}
       aria-label="Agent inventory"
     >
       <DashboardPageStack
         className="fleet-inventory-stack"
         title="Fleet"
-        description={hasAgents ? `${unit(props.instances.length, "agent")} across ${unit(props.fleetNodes?.length || 1, "node")}` : "Create an agent to start using this console."}
+        description={hasAgents ? `${unit(instances.length, "agent")} across ${unit(nodeCount, "node")}` : "Create an agent to start using this console."}
         hideHeader
       >
         <div className="fleet-stats-strip" aria-label="Fleet metrics">
-          <FleetMetric label="Agents ready" value={ratio(runningAgents, props.instances.length, props.instances.length === 1 ? "agent" : "agents")} detail={runningAgents >= props.instances.length ? "All running" : "Review stopped"} trend={runningAgents >= props.instances.length ? "steady" : "attention"} series={runningAgentSeries} seriesLabel={metricSeriesLabel("Running agents", runningAgentSeries)} />
+          <FleetMetric label="Agents ready" value={ratio(runningAgents, instances.length, instances.length === 1 ? "agent" : "agents")} detail={runningAgents >= instances.length ? "All running" : "Review stopped"} trend={runningAgents >= instances.length ? "steady" : "attention"} series={runningAgentSeries} seriesLabel={metricSeriesLabel("Running agents", runningAgentSeries)} />
           <FleetMetric label="Service health" value={`${snapshot.serviceHealth}%`} detail={serviceCount ? `${runningServices}/${serviceCount} online` : "No services"} trend={serviceCount && runningServices < serviceCount ? "attention" : "steady"} series={serviceHealthSeries} seriesLabel={metricSeriesLabel("Service health", serviceHealthSeries, "%")} suffix="%" />
           <FleetMetric label="Active jobs" value={String(activeJobCount)} detail={activeJobCount ? "In progress" : "Quiet"} trend={activeJobCount ? "active" : "steady"} series={activeJobSeries} seriesLabel={metricSeriesLabel("Active jobs", activeJobSeries)} />
           <FleetMetric label="Data health" value={`${snapshot.dataHealth}%`} detail="Memory, providers" trend={snapshot.dataHealth < 100 ? "attention" : "steady"} series={dataHealthSeries} seriesLabel={metricSeriesLabel("Data health", dataHealthSeries, "%")} suffix="%" />
         </div>
         {degraded ? (
           <DegradedGuidanceStrip
-            instances={props.instances}
+            instances={instances}
             onOpen={props.openAdvanced}
             onReviewSetup={() => props.setOnboardingOpen(true)}
           />
         ) : null}
-        {props.instances.length > 0 ? (
+        {instances.length > 0 ? (
           <FleetAgentTable
-            jobs={props.activeJobs}
-            instances={props.instances}
+            jobs={activeJobs}
+            instances={instances}
             onBackupAgent={props.backupAgent}
             onCloneAgent={props.cloneAgent}
+            onMoveAgent={props.moveAgent}
             onRunAction={props.runAgentAction}
             onRenameAgent={props.renameAgent}
             onSelect={props.openAdvanced}
+            fleetNodes={props.fleetNodes || []}
             pendingActions={props.pendingActions}
             selectedName={props.selected?.fleetKey || ""}
           />
@@ -220,6 +236,109 @@ export function FleetDashboard(props: Props) {
     </DashboardPageFrame>
   );
 }
+
+const BUSINESS_AGENT_SEEDS = [
+  ["revenue-ops", "Revenue Operations", "MacMini Studio", "openai-codex", "gpt-5.1-codex", 6, 6, "running"],
+  ["finance-controller", "Finance Controller", "AWS us-east-1", "openai-codex", "gpt-5.1", 5, 5, "running"],
+  ["customer-success", "Customer Success", "Azure UK South", "openrouter", "anthropic/claude-sonnet-4.5", 7, 6, "partial"],
+  ["market-research", "Market Research", "GCP europe-west2", "openrouter", "google/gemini-2.5-pro", 4, 4, "running"],
+  ["people-operations", "People Operations", "MacMini Rack", "openai-codex", "gpt-5-mini", 5, 5, "running"],
+  ["legal-intake", "Legal Intake", "Azure East US", "openrouter", "mistralai/mistral-large-2411", 3, 3, "running"],
+  ["procurement-desk", "Procurement Desk", "AWS eu-west-2", "openrouter", "openai/gpt-4.1", 6, 5, "partial"],
+  ["executive-briefing", "Executive Briefing", "GCP us-central1", "openai-codex", "o3", 4, 4, "running"],
+  ["sales-enablement", "Sales Enablement", "MacBook Pro M4", "openrouter", "meta-llama/llama-3.3-70b-instruct", 5, 5, "running"],
+  ["compliance-monitor", "Compliance Monitor", "AWS ap-southeast-2", "openrouter", "qwen/qwen3-235b-a22b", 4, 3, "partial"],
+  ["support-triage", "Support Triage", "Azure West Europe", "openai-codex", "gpt-4.1-mini", 8, 8, "running"],
+  ["operations-planner", "Operations Planner", "Local Ollama", "ollama", "llama3.3:70b", 5, 0, "exited"],
+  ["accounts-payable", "Accounts Payable", "GCP asia-southeast1", "openrouter", "deepseek/deepseek-r1", 4, 4, "running"],
+  ["board-reporting", "Board Reporting", "AWS eu-central-1", "openai-codex", "gpt-5.1-codex-mini", 5, 5, "running"],
+  ["partner-ops", "Partner Operations", "MacStudio Desk", "custom", "local-mixtral-8x22b", 4, 4, "running"],
+  ["risk-analyst", "Risk Analyst", "Azure Canada Central", "openrouter", "x-ai/grok-4", 6, 5, "partial"],
+] as const;
+
+const BUSINESS_AGENT_PLACEHOLDERS: Instance[] = BUSINESS_AGENT_SEEDS.map(([name, displayName, nodeLabel, provider, model, serviceCount, runningServices, state], index) => {
+  const nodeId = nodeLabel.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const dashboardPort = 4200 + index;
+  const webPort = 5200 + index;
+  return {
+    name,
+    displayName,
+    nodeId,
+    nodeLabel,
+    nodeLocal: index < 2,
+    nodeStatus: "online",
+    fleetKey: fleetKey(name, nodeId),
+    state,
+    services: Array.from({ length: serviceCount }, (_, serviceIndex) => ({
+      name: `${name}-service-${serviceIndex + 1}`,
+      state: serviceIndex < runningServices ? "running" : "stopped",
+    })),
+    serviceCount,
+    runningServices,
+    health: {
+      dashboard: state === "running",
+      camofox: runningServices > 0,
+    },
+    memory: {
+      ok: runningServices > 0,
+      provider,
+      dataDir: `/demo/business/${name}`,
+      pluginOk: true,
+      fileCount: 80 + index * 17,
+      totalBytes: 1450000 + index * 230000,
+      checkedAt: new Date(Date.now() - index * 60000).toISOString(),
+    },
+    capabilities: {
+      model: {
+        ready: runningServices > 0,
+        provider,
+        model,
+      },
+      browser: {
+        ready: runningServices > 1,
+        client: "camofox",
+      },
+      workspace: {
+        ready: true,
+        workspace: true,
+        git: true,
+        projectContext: true,
+      },
+    },
+    endpoints: {
+      dashboard: `http://127.0.0.1:${dashboardPort}`,
+      lanDashboard: `http://10.0.${index + 10}.12:${dashboardPort}`,
+      web: `http://127.0.0.1:${webPort}`,
+      lanWeb: `http://10.0.${index + 10}.12:${webPort}`,
+    },
+    ports: {
+      dashboard: dashboardPort,
+      health: 6200 + index,
+      web: webPort,
+      vnc: 5900 + index,
+    },
+    dependencies: {
+      camofox: true,
+    },
+    runtime: "docker",
+    network: {
+      lanAddress: `10.0.${index + 10}.12`,
+    },
+    config: {
+      provider,
+      model,
+    },
+    update: {
+      required: false,
+      status: "current",
+      versionsBehind: 0,
+      currentRevision: "demo-placeholder",
+      latestRevision: "demo-placeholder",
+    },
+    drift: {},
+    timeline: [],
+  };
+});
 
 const TREND_ICONS: Record<"up" | "down" | "flat", ComponentType<{ className?: string }>> = {
   up: ArrowUp,
@@ -400,11 +519,13 @@ function sortValue(instance: Instance, key: SortKey): string | number {
   }
 }
 
-function FleetAgentTable({ instances, jobs, onBackupAgent, onCloneAgent, onRenameAgent, onRunAction, onSelect, pendingActions, selectedName }: {
+function FleetAgentTable({ instances, jobs, fleetNodes, onBackupAgent, onCloneAgent, onMoveAgent, onRenameAgent, onRunAction, onSelect, pendingActions, selectedName }: {
   instances: Instance[];
   jobs: Job[];
+  fleetNodes: FleetNode[];
   onBackupAgent: (name: string, options: AgentBackupOptions, nodeId?: string) => Promise<void>;
   onCloneAgent: (name: string, options: AgentCloneOptions, nodeId?: string) => Promise<void>;
+  onMoveAgent: (name: string, options: AgentMoveOptions, nodeId?: string) => Promise<void>;
   onRunAction: (name: string, action: string, nodeId?: string, confirmed?: boolean) => Promise<void>;
   onRenameAgent: (name: string, displayName: string, nodeId?: string) => Promise<void>;
   onSelect: (name: string, nodeId?: string) => void;
@@ -416,6 +537,7 @@ function FleetAgentTable({ instances, jobs, onBackupAgent, onCloneAgent, onRenam
   const [confirmTarget, setConfirmTarget] = useState<{ instance: Instance; action: ConfirmableLifecycleAction } | null>(null);
   const [backupTarget, setBackupTarget] = useState<Instance | null>(null);
   const [cloneTarget, setCloneTarget] = useState<Instance | null>(null);
+  const [moveTarget, setMoveTarget] = useState<Instance | null>(null);
   const [renameTarget, setRenameTarget] = useState<Instance | null>(null);
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const [bulkConfirm, setBulkConfirm] = useState<ConfirmableLifecycleAction | null>(null);
@@ -581,7 +703,10 @@ function FleetAgentTable({ instances, jobs, onBackupAgent, onCloneAgent, onRenam
             const modelConfig = providerModel(instance);
             const nodeId = instance.nodeId || "local";
             const key = fleetKey(instance.name, nodeId);
-            const selectedJobs = jobs.filter((job) => job.instance === instance.name && (job.nodeId || "local") === nodeId);
+            const selectedJobs = jobs.filter((job) => job.instance === instance.name && (
+              (job.nodeId || "local") === nodeId
+              || (job.action === "fleet-move" && job.payload?.sourceNodeId === nodeId)
+            ));
             const activeJob = selectedJobs.find((job) => ["queued", "running"].includes(job.status));
             const pendingAction = pendingActions[key] || activeJob?.action || "";
             const isExpanded = Boolean(expanded[key]);
@@ -630,6 +755,7 @@ function FleetAgentTable({ instances, jobs, onBackupAgent, onCloneAgent, onRenam
                       pendingAction={pendingAction}
                       onBackup={() => setBackupTarget(instance)}
                       onClone={() => setCloneTarget(instance)}
+                      onMove={() => setMoveTarget(instance)}
                       onRename={() => setRenameTarget(instance)}
                       canOpenDetails={ready}
                       onOpen={() => onSelect(instance.name, nodeId)}
@@ -647,6 +773,7 @@ function FleetAgentTable({ instances, jobs, onBackupAgent, onCloneAgent, onRenam
                     pendingAction={pendingAction}
                     onBackup={() => setBackupTarget(instance)}
                     onClone={() => setCloneTarget(instance)}
+                    onMove={() => setMoveTarget(instance)}
                     onRename={() => setRenameTarget(instance)}
                     canOpenDetails={ready}
                     onOpen={() => onSelect(instance.name, nodeId)}
@@ -694,6 +821,7 @@ function FleetAgentTable({ instances, jobs, onBackupAgent, onCloneAgent, onRenam
       </AlertDialog>
       {backupTarget ? <AgentBackupModal open selected={backupTarget} onClose={() => setBackupTarget(null)} onBackup={(name, options) => onBackupAgent(name, options, backupTarget.nodeId || "local")} /> : null}
       {cloneTarget ? <AgentCloneModal open selected={cloneTarget} onClose={() => setCloneTarget(null)} onClone={(name, options) => onCloneAgent(name, options, cloneTarget.nodeId || "local")} /> : null}
+      {moveTarget ? <AgentMoveModal open selected={moveTarget} instances={instances} fleetNodes={fleetNodes} onClose={() => setMoveTarget(null)} onMove={(name, options) => onMoveAgent(name, options, moveTarget.nodeId || "local")} /> : null}
       {renameTarget ? <AgentRenameModal open selected={renameTarget} onClose={() => setRenameTarget(null)} onRename={onRenameAgent} /> : null}
     </>
   );
@@ -730,12 +858,13 @@ function Initials({ value }: { value: string }) {
   return <i className="fleet-agent-initials" aria-hidden="true">{initials}</i>;
 }
 
-function AgentActionMenu({ instance, pendingAction, canOpenDetails, onBackup, onClone, onRename, onOpen, onRequestAction }: {
+function AgentActionMenu({ instance, pendingAction, canOpenDetails, onBackup, onClone, onMove, onRename, onOpen, onRequestAction }: {
   instance: Instance;
   pendingAction: string;
   canOpenDetails: boolean;
   onBackup: () => void;
   onClone: () => void;
+  onMove: () => void;
   onRename: () => void;
   onOpen: () => void;
   onRequestAction: (action: LifecycleAction) => void;
@@ -748,18 +877,19 @@ function AgentActionMenu({ instance, pendingAction, canOpenDetails, onBackup, on
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="agent-action-menu" onClick={(event) => event.stopPropagation()}>
-        <AgentMenuItems pendingAction={pendingAction} canOpenDetails={canOpenDetails} onBackup={onBackup} onClone={onClone} onRename={onRename} onOpen={onOpen} onRequestAction={onRequestAction} />
+        <AgentMenuItems pendingAction={pendingAction} canOpenDetails={canOpenDetails} onBackup={onBackup} onClone={onClone} onMove={onMove} onRename={onRename} onOpen={onOpen} onRequestAction={onRequestAction} />
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
 
-function AgentContextMenuContent({ pendingAction, canOpenDetails, onBackup, onClone, onRename, onOpen, onRequestAction }: {
+function AgentContextMenuContent({ pendingAction, canOpenDetails, onBackup, onClone, onMove, onRename, onOpen, onRequestAction }: {
   instance: Instance;
   pendingAction: string;
   canOpenDetails: boolean;
   onBackup: () => void;
   onClone: () => void;
+  onMove: () => void;
   onRename: () => void;
   onOpen: () => void;
   onRequestAction: (action: LifecycleAction) => void;
@@ -777,17 +907,19 @@ function AgentContextMenuContent({ pendingAction, canOpenDetails, onBackup, onCl
       <ContextMenuSeparator />
       <ContextMenuItem onSelect={onBackup}><Archive />Back up</ContextMenuItem>
       <ContextMenuItem onSelect={onClone}><CopyPlus />Clone</ContextMenuItem>
+      <ContextMenuItem onSelect={onMove}><MoveRight />Move</ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem disabled={Boolean(pendingAction)} onSelect={() => onRequestAction("delete")} variant="destructive"><Trash2 />Delete</ContextMenuItem>
     </ContextMenuContent>
   );
 }
 
-function AgentMenuItems({ pendingAction, canOpenDetails, onBackup, onClone, onRename, onOpen, onRequestAction }: {
+function AgentMenuItems({ pendingAction, canOpenDetails, onBackup, onClone, onMove, onRename, onOpen, onRequestAction }: {
   pendingAction: string;
   canOpenDetails: boolean;
   onBackup: () => void;
   onClone: () => void;
+  onMove: () => void;
   onRename: () => void;
   onOpen: () => void;
   onRequestAction: (action: LifecycleAction) => void;
@@ -805,6 +937,7 @@ function AgentMenuItems({ pendingAction, canOpenDetails, onBackup, onClone, onRe
       <DropdownMenuSeparator />
       <DropdownMenuItem onSelect={onBackup}><Archive />Back up</DropdownMenuItem>
       <DropdownMenuItem onSelect={onClone}><CopyPlus />Clone</DropdownMenuItem>
+      <DropdownMenuItem onSelect={onMove}><MoveRight />Move</DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem disabled={Boolean(pendingAction)} onSelect={() => onRequestAction("delete")} variant="destructive"><Trash2 />Delete</DropdownMenuItem>
     </>
